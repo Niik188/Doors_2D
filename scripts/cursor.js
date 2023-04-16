@@ -8,6 +8,6 @@ cursor.img.src = './sprites/cursor.png';
 
 //Расположение курсора
 window.addEventListener('mousemove',(e)=>{
-    cursor.x = e.clientX
-    cursor.y = e.clientY
+    cursor.x = e.pageX
+    cursor.y = e.pageY
 })

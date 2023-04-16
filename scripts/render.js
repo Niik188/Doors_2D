@@ -27,6 +27,9 @@ function draw() {
     requestAnimationFrame(draw)
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canv.width, canv.height);
+    collision()
+    gravity()
+    lighting()
     ctx.drawImage(stage.img, 0, stage.y-stage.img.width+150, stage.img.width*2, stage.img.height*2);
     
     for (let i = 0; i < objects.length; i++) {
@@ -44,11 +47,7 @@ function draw() {
     }
     // ctx.translate(camera.x,camera.y)
     // ctx.restore();
-    gravity()
-    collision()
-    lighting()
-
-    ctx.drawImage(cursor.img, cursor.x-cursor.img.width/1.5, cursor.y-cursor.img.height/1.5);
+    ctx.drawImage(cursor.img, cursor.x-cursor.img.width/2, cursor.y-cursor.img.height/2);
     const now = performance.now();
     while (times.length > 0 && times[0] <= now - 1000) {
       times.shift();

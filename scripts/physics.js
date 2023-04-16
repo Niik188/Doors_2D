@@ -12,11 +12,11 @@ export function collision() {
     }
     for (let i = 0; i < objects.length; i++) {
         if (objects[i].onCollision == true) {
-            if(player.x + player.w > objects[i].x+5 && player.x < objects[i].x-5 + objects[i].main.width&&player.y + player.h > objects[i].y&&player.y + player.h < objects[i].y+objects[i].main.height/2.5){
+            if(player.x + player.w > objects[i].x+20 && player.x < objects[i].x-20 + objects[i].main.width&&player.y + player.h > objects[i].y&&player.y + player.h < objects[i].y+objects[i].main.height/2.5){
                 player.y = objects[i].y+1-player.h
                 player.ground = true
             }
-            if(player.x + player.w > objects[i].x+5 && player.x < objects[i].x-5 + objects[i].main.width&&player.y < objects[i].y+objects[i].main.height&&player.y + player.h > objects[i].y+objects[i].main.height/2.5){
+            if(player.x + player.w > objects[i].x+20 && player.x < objects[i].x-20 + objects[i].main.width&&player.y < objects[i].y+objects[i].main.height&&player.y + player.h > objects[i].y+objects[i].main.height/2.5){
                 player.y = objects[i].y + objects[i].main.height
                 player.ground = true
             }
@@ -34,10 +34,7 @@ export function collision() {
     }
 }
 
-export function collis(x1, y1, w1, h1, x2, y2, w2, h2) {
-    return x2 < x1+w1 &&  x1 < x2+ w2
-            && y2 < y1+h1 &&  y1 < y2+ h2
-}
+
 
 //Физика игрока
 export function gravity() {
@@ -65,4 +62,9 @@ export function gravity() {
             }
         }
     } 
+}
+
+export function collis(x1, y1, w1, h1, x2, y2, w2, h2) {
+    return x2 < x1+w1 &&  x1 < x2+ w2
+            && y2 < y1+h1 &&  y1 < y2+ h2
 }

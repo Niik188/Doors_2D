@@ -2,5 +2,5 @@
 export var stage = {
     img: new Image(),
     y: 500,
-    type: "dark"
+    type: "light"
 }
