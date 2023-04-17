@@ -1,4 +1,6 @@
+//Кадры в секунду
 const SPEED_FRAME = 100
+//Анимация обьектов
 export function animateObject(object) {
     if (object.onAnimate == true) {
         var frame = 1

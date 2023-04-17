@@ -13,6 +13,7 @@ window.addEventListener('mousemove',(e)=>{
     cursor.y = e.pageY
 })
 
+// Проверка звука
 // window.addEventListener('click',(e)=>{
 //     spawn_sound(cursor.x, cursor.y, './sounds/close_hide.mp3', 500)
 // })

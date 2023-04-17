@@ -37,6 +37,7 @@ function draw() {
     }
     for (let i = 0; i < sounds.length; i++) {
       distanceSound(sounds[i])
+      //Удаление звука, если звук прекратился
       if (sounds[i].main.paused) {
         sounds.splice(i, 1)
       }
@@ -49,6 +50,7 @@ function draw() {
     // ctx.translate(camera.x,camera.y)
     // ctx.restore();
     ctx.drawImage(cursor.img, cursor.x-cursor.img.width/2, cursor.y-cursor.img.height/2);
+    //Рассчёт fps
     const now = performance.now();
     while (times.length > 0 && times[0] <= now - 1000) {
       times.shift();

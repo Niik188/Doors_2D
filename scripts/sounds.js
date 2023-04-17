@@ -2,6 +2,7 @@ import { player } from "./player.js"
 export var music = new Audio()
 export var sounds = []
 
+//Создание звука
 export function spawn_sound(pointX, pointY, src, distance){
     var sound = {
         main: new Audio(),
@@ -16,6 +17,7 @@ export function spawn_sound(pointX, pointY, src, distance){
     sounds.push(sound)
 }
 
+//Проверка дистанции и изменение громкости звука при дистанции
 export function distanceSound(sound) {
         sound.volume = 1
         var distanceX = 0
@@ -44,11 +46,3 @@ export function distanceSound(sound) {
         }
         sound.main.volume = sound.volume
     }
-
-// export function deleteSound() {
-//     for (let i = 0; i < sounds.length; i++) {
-//         setTimeout(() => {
-//             sounds.splice(i, 1);
-//         }, sounds[i].main.duration);
-//     }
-// }

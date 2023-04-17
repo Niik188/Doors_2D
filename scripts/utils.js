@@ -1,5 +1,7 @@
+//Параметры canvas
 export var canv = document.getElementById('canv')
 export const ctx = canv.getContext("2d");
+//Параметры эффекта(освещение)
 export var effect_canv = document.getElementById('effects')
 export const effect_ctx = effect_canv.getContext("2d");
 

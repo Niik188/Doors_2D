@@ -4,8 +4,7 @@ import { effect_ctx } from "./utils.js";
 import { cursor } from "./cursor.js";
 var radialGradient;
 
-
-
+//Освещение
 export function lighting() {
     if (stage.type == "dark") {
         effect_ctx.clearRect(0, 0, effect_canv.width, effect_canv.height);

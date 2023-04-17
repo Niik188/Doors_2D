@@ -5,4 +5,5 @@ import '../objects.js'
 import '../physics.js'
 import '../render.js'
 import '../map.js'
+//Номер комнаты
 export var rooms = 1
