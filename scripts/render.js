@@ -8,7 +8,7 @@ import { sounds } from "./sounds.js";
 import { canv } from "./utils.js";
 import { ctx } from "./utils.js";
 import { lighting } from "./lighting.js";
-import { deleteSound } from "./sounds.js";
+import { distanceSound } from "./sounds.js";
 
 //Параметр холста
 ctx.webkitImageSmoothingEnabled = false;
@@ -36,10 +36,11 @@ function draw() {
         ctx.drawImage(objects[i].main, objects[i].x, objects[i].y, objects[i].main.width, objects[i].main.height)
     }
     for (let i = 0; i < sounds.length; i++) {
-      sounds[i].main.play()
-      deleteSound()
+      distanceSound(sounds[i])
+      if (sounds[i].main.paused) {
+        sounds.splice(i, 1)
+      }
     }
-    
     // ctx.save();
     // ctx.scale(-1, 1);
     if (!player.hide) {

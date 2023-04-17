@@ -12,7 +12,7 @@ function start() {
     spawn_object("hide", 400, 300, "none", "physics", "./sprites/objects/hide_1.png", false, true, 3)
     spawn_object("hide", 900, 300, "none", "physics", "./sprites/objects/hide_1.png", false, true, 3)
     spawn_object("test", 800, 300, "none", "static", "./sprites/objects/test_button_1.png", false, true, 2)
-    // spawn_sound(200, 200, '../sounds/Unhinged_II_(intense).ogg')
+    // spawn_sound(90, 200, './sounds/Unhinged_II_(intense).ogg', 1000)
 }
 
 start()

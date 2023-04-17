@@ -1,3 +1,4 @@
+import { spawn_sound } from "./sounds.js";
 //параметр курсора
 export var cursor = {
     img: new Image(),
@@ -11,3 +12,7 @@ window.addEventListener('mousemove',(e)=>{
     cursor.x = e.pageX
     cursor.y = e.pageY
 })
+
+// window.addEventListener('click',(e)=>{
+//     spawn_sound(cursor.x, cursor.y, './sounds/close_hide.mp3', 500)
+// })
