@@ -3,6 +3,8 @@ import { collis } from './physics.js';
 import { objects } from './objects.js';
 import { animateObject } from './animation.js';
 import { spawn_sound } from "./sounds.js";
+import { ctx } from './utils.js';
+import { canv } from './utils.js';
 
 //параметр игрока
 export var player = {
@@ -14,6 +16,7 @@ export var player = {
     ground: false,
     speed_left: 5,
     speed_right: 5,
+    flip: false,
     x: 0,
     y: 0,
     w: 70,
@@ -86,12 +89,14 @@ function gameLoop() {
     if (player.active) {
     if (keyState["a"] || keyState["A"] || keyState["ф"] || keyState["Ф"]){ 
         player.x -= player.speed_left;
+        player.flip = true
     }
     if (keyState["w"] || keyState["W"] || keyState["ц"] || keyState["Ц"]){
         player_jump()
     }
     if (keyState["d"] || keyState["D"] || keyState["в"] || keyState["В"]){
         player.x += player.speed_right;
+        player.flip = false
     }
     }
     // redraw/reposition your object here

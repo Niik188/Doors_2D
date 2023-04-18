@@ -1,6 +1,7 @@
 import { player } from "./player.js"
 import { objects } from "./objects.js"
 import { stage } from "./stage.js"
+import { mapBounds } from "./utils.js"
 
 //Столкновение
 export function collision() {
@@ -9,6 +10,16 @@ export function collision() {
     }else{
         player.y = stage.y+160-player.h
         player.ground = true
+    }
+    if (player.x + player.w > mapBounds.maxX) {
+        player.x = mapBounds.maxX+1-player.w
+        player.speed_right = 0
+    }else if (player.x < mapBounds.minX) {
+        player.x = mapBounds.minX-1
+        player.speed_left = 0
+    }else{
+        player.speed_right = 5
+        player.speed_left = 5
     }
     for (let i = 0; i < objects.length; i++) {
         if (objects[i].onCollision == true) {
