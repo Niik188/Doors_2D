@@ -2,7 +2,7 @@
 export var objects = []
 
 //Создание обьекта с параметрами
-export function spawn_object(name, pointX, pointY, id, type, model, collision, animation, size) {
+export function spawn_object(name, pointX, pointY, width, height, id, type, model, collision, animation, size) {
     if (id == "none") {
         id = `${Date.now().toString(36) + Math.random().toString(36).slice(2)}`
     }
@@ -24,6 +24,10 @@ export function spawn_object(name, pointX, pointY, id, type, model, collision, a
     }
     if (animation = true) {
         object.frameName = object.model.replace('./sprites/objects/','').replace(`_1.png`,'');
+    }
+    if (width!=0&&height!=0) {
+        object.main.width = width
+        object.main.height = height
     }
     object.main.src = object.model
     objects.push(object)

@@ -2,6 +2,7 @@ import { player } from "./player.js";
 import { gravity } from "./physics.js";
 import { collision } from "./physics.js";
 import { objects } from "./objects.js";
+import { checkCeilling } from "./player.js";
 import { cursor } from "./cursor.js";
 import { stage } from "./stage.js";
 import { sounds } from "./sounds.js";
@@ -35,9 +36,9 @@ function draw() {
     lighting()
     cameraMoving()
     ctx.drawImage(stage.img, 0, stage.y-stage.img.height-110, stage.img.width*2, stage.img.height*2);
-    for (let i = 0; i < objects.length; i++) {
-        ctx.drawImage(objects[i].main, objects[i].x, objects[i].y, objects[i].main.width, objects[i].main.height)
-    }
+    objects.forEach(object => {
+      ctx.drawImage(object.main, object.x, object.y, object.main.width, object.main.height)
+    });
     for (let i = 0; i < sounds.length; i++) {
       distanceSound(sounds[i])
       //Удаление звука, если звук прекратился

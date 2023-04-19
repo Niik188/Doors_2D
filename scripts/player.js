@@ -13,7 +13,7 @@ export var player = {
     active: true,
     hide: false,
     power_physic: 0,
-    jump: true,
+    jump: false,
     sit: false,
     ground: false,
     groundY: 0,
@@ -46,7 +46,6 @@ function player_jump() {
     if (player.ground&&player.jump) {
         player.y -= 6;
         player.power_physic = -20
-        collision()
         setTimeout(() => {
             return;
         }, 200);
@@ -56,8 +55,19 @@ function player_jump() {
 export function sit() {
     // player.y += player.h-player.y
     player.sit = true
-    setPicture(140,0,69,148)
+    setPicture(140,0,70,148)
     player.h = 148
+}
+
+export function checkCeilling(object) {
+    if(object.onCollision){
+    if (player.x + player.w > object.x+20 && player.x < object.x-20 + object.main.width&&player.y-21 < object.y+object.main.height&&player.y-25 + player.h > object.y+object.main.height/1.5) {
+        sit()
+    }else if (player.x + player.w < object.x&&player.y-25 < object.y+object.main.height || player.x > object.x + object.main.width&&player.y-25 < object.y+object.main.height){
+        player.h = 188
+        player.sit = false
+    }
+}
 }
 
 //Клавиши
@@ -120,7 +130,10 @@ function gameLoop() {
     }
     if (keyState["s"] || keyState["S"] || keyState["ы"] || keyState["Ы"]){
         sit()
-    }else if(player.y+player.h<stage.y+160){
+    }else{
+        objects.forEach(object => {
+        checkCeilling(object)
+        });
         player.h = 188
         player.sit = false
     }

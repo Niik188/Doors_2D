@@ -7,10 +7,10 @@ import { sit } from "./player.js"
 
 //Столкновение
 export function collision() {
-    if (player.y+player.h > stage.y+160||player.x > stage.img.width*2) {
+    if (player.y+player.h > stage.y+160&&player.x < stage.img.width*2) {
         player.y = stage.y+161-player.h
         player.ground = true
-    }else{
+    }else if (player.y+player.h < stage.y+160||player.x > stage.img.width*2){
         player.ground = false
     }
     if (player.x + player.w > mapBounds.maxX) {
