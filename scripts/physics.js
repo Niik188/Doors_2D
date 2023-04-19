@@ -1,15 +1,17 @@
 import { player } from "./player.js"
+import { setPicture } from "./player.js"
 import { objects } from "./objects.js"
 import { stage } from "./stage.js"
 import { mapBounds } from "./utils.js"
+import { sit } from "./player.js"
 
 //Столкновение
 export function collision() {
-    if (player.y+player.h < stage.y+160||player.x > stage.img.width*2||player.y > stage.y+170) {
-        player.ground = false
-    }else{
-        player.y = stage.y+160-player.h
+    if (player.y+player.h > stage.y+160||player.x > stage.img.width*2) {
+        player.y = stage.y+161-player.h
         player.ground = true
+    }else{
+        player.ground = false
     }
     if (player.x + player.w > mapBounds.maxX) {
         player.x = mapBounds.maxX+1-player.w
@@ -43,6 +45,7 @@ export function collision() {
             }
         }
     }
+    
 }
 
 
@@ -52,10 +55,14 @@ export function gravity() {
     if (!player.ground&&player.active) {
         player.power_physic+=0.5
         player.y+=player.power_physic
-        player.picture = 1
+        if (!player.sit) {
+        setPicture(70, 0, 70, 188)
+        }
     }else{
         player.power_physic=0
-        player.picture = 0
+        if (!player.sit) {
+            setPicture(0, 0, 70, 188)
+        }
     }
     for (let i = 0; i < objects.length; i++) {
         if (objects[i].type == "physics") {

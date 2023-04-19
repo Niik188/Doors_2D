@@ -3,6 +3,7 @@ import { collis } from './physics.js';
 import { objects } from './objects.js';
 import { animateObject } from './animation.js';
 import { spawn_sound } from "./sounds.js";
+import { stage } from './stage.js';
 import { ctx } from './utils.js';
 import { canv } from './utils.js';
 
@@ -13,7 +14,9 @@ export var player = {
     hide: false,
     power_physic: 0,
     jump: true,
+    sit: false,
     ground: false,
+    groundY: 0,
     speed_left: 5,
     speed_right: 5,
     flip: false,
@@ -21,7 +24,17 @@ export var player = {
     y: 0,
     w: 70,
     h: 188,
-    picture: 0
+    pictureX: 0,
+    pictureY: 0,
+    pictureW: 70,
+    pictureH: 188
+}
+
+export function setPicture(x,y,w,h) {
+    player.pictureX = x
+    player.pictureY = y
+    player.pictureW = w
+    player.pictureH = h
 }
 
 //назначение картинки
@@ -40,10 +53,17 @@ function player_jump() {
     }}
 }
 
+export function sit() {
+    // player.y += player.h-player.y
+    player.sit = true
+    setPicture(140,0,69,148)
+    player.h = 148
+}
+
 //Клавиши
 addEventListener('keydown', (e) =>{
     for (let i = 0; i < objects.length; i++) {
-    if (e.key == 'e') {
+    if (e.key == 'e'||e.key == 'E'||e.key == 'у'||e.key == 'У') {
         if (collis(player.x, player.y, player.w, player.h, objects[i].x, objects[i].y-10, objects[i].main.width, objects[i].main.height+10)) {
             if (objects[i].object == "test") {
                 animateObject(objects[i])
@@ -62,7 +82,7 @@ addEventListener('keydown', (e) =>{
             }
         }
     }
-    if (e.key == 's') {
+    if (e.key == 's'||e.key == 'S'||e.key == 'ы'||e.key == 'Ы') {
         if (collis(player.x, player.y, player.w, player.h, objects[i].x, objects[i].y-10, objects[i].main.width, objects[i].main.height+10)) {
             if (objects[i].object == "hide"&& player.hide) {
                 setTimeout(() => {
@@ -97,6 +117,12 @@ function gameLoop() {
     if (keyState["d"] || keyState["D"] || keyState["в"] || keyState["В"]){
         player.x += player.speed_right;
         player.flip = false
+    }
+    if (keyState["s"] || keyState["S"] || keyState["ы"] || keyState["Ы"]){
+        sit()
+    }else if(player.y+player.h<stage.y+160){
+        player.h = 188
+        player.sit = false
     }
     }
     // redraw/reposition your object here
