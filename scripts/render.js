@@ -1,9 +1,9 @@
+import { renderHUD } from "./hud.js";
 import { player } from "./player.js";
 import { gravity } from "./physics.js";
 import { collision } from "./physics.js";
 import { objects } from "./objects.js";
 import { checkCeilling } from "./player.js";
-import { cursor } from "./cursor.js";
 import { stage } from "./stage.js";
 import { sounds } from "./sounds.js";
 import { canv } from "./utils.js";
@@ -12,14 +12,10 @@ import { effect_canv } from "./utils.js";
 import { lighting } from "./lighting.js";
 import { distanceSound } from "./sounds.js";
 import { cameraMoving } from "./camera.js";
-import { camera } from "./camera.js";
+
 
 //Размер отдельных кадров игрока
 const PLAYER_PICTURE_SIZE = 70
-
-//Счётчик кадров в сек.
-var times = [];
-var fps;
 
 //Зарисовка обьектов на холст
 function draw() {
@@ -56,17 +52,7 @@ function draw() {
       ctx.drawImage(player.img, player.pictureX, player.pictureY, player.pictureW, player.pictureH, player.x, player.y, player.w, player.h);
     }
     }
-    ctx.drawImage(cursor.img, cursor.x-cursor.img.width/2, cursor.y-cursor.img.height/2);
-    //Рассчёт fps
-    const now = performance.now();
-    while (times.length > 0 && times[0] <= now - 1000) {
-      times.shift();
-    }
-    times.push(now);
-    fps = times.length;
-    ctx.fillStyle = "red";
-    ctx.font = "normal 16pt Arial";
-    ctx.fillText(fps + " fps", camera.x+10, camera.y+26);
+    renderHUD()
 }
 
 draw()

@@ -1,12 +1,23 @@
 import { stage } from "./stage.js"; 
 import { effect_canv } from "./utils.js";
 import { effect_ctx } from "./utils.js";
-import { cursor } from "./cursor.js";
+import { page } from "./cursor.js"
+import { cursor } from "./cursor.js"
+import { objects } from "./objects.js";
+import { camera } from "./camera.js";
 var radialGradient;
+var flashlight = {
+    x: 0,
+    y: 0,
+    power: 600,
+    active: true
+}
 
 //Освещение
 export function lighting() {
     if (stage.type == "dark") {
+        flashlight.x = page.x
+        flashlight.y = page.y
         effect_ctx.clearRect(0, 0, effect_canv.width, effect_canv.height);
         // first reset the gCO
         effect_ctx.globalCompositeOperation = 'source-over';
@@ -14,16 +25,24 @@ export function lighting() {
         effect_ctx.fillStyle = '#000';
         effect_ctx.fillRect(0, 0, effect_canv.width, effect_canv.height);
         
-        effect_ctx.beginPath();
-        radialGradient = effect_ctx.createRadialGradient(cursor.x, cursor.y, 1, cursor.x, cursor.y, 500);
+        radialGradient = effect_ctx.createRadialGradient(flashlight.x, flashlight.y, 1, flashlight.x, flashlight.y, flashlight.power);
         radialGradient.addColorStop(0, 'rgba(255,255,255,50)');
         radialGradient.addColorStop(1, 'rgba(0,0,0,0)');
         
         effect_ctx.globalCompositeOperation = "destination-out";
-        
+        objects.forEach(object => {
+            if(object.object == "light"){
+                effect_ctx.beginPath();
+                effect_ctx.arc((object.x+object.main.width/2)-camera.x, object.y, 200, 0, Math.PI*2, false);
+                effect_ctx.fill();
+                effect_ctx.closePath();
+            }
+        });
+        effect_ctx.beginPath();
         effect_ctx.fillStyle = radialGradient;
-        effect_ctx.arc(cursor.x, cursor.y, 500, 0, Math.PI*2, false);
+        effect_ctx.arc(flashlight.x, flashlight.y, flashlight.power, 0, Math.PI*2, false);
         effect_ctx.fill();
         effect_ctx.closePath();
+        
     }
 }

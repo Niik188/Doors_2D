@@ -6,8 +6,11 @@ import { getRandomInt } from "./utils.js"
 stage.img.src = `./sprites/background_${getRandomInt(1,6)}.png`
 if (getRandomInt(0,2)==1) {
     spawn_object("hide", 70, 300, 0, 0, "none", "physics", "./sprites/objects/hide_1.png", false, true, 3)
+    spawn_object("light_off", 500, 300, 0, 0, "none", "static", "./sprites/objects/light_off.png", false, false, 0)
     spawn_object("light", 500, 300, 0, 0, "none", "static", "./sprites/objects/light.png", false, false, 0)
     spawn_object("hide", 700, 300, 0, 0, "none", "physics", "./sprites/objects/hide_1.png", false, true, 3)
+    spawn_object("light_off", 1000, 300, 0, 0, "none", "static", "./sprites/objects/light_off.png", false, false, 0)
+    spawn_object("light", 1000, 300, 0, 0, "none", "static", "./sprites/objects/light.png", false, false, 0)
 }else{
     spawn_object("dresser", 70, 460, 0, 0, "none", "physics", "./sprites/objects/dresser_1.png", false, false, 0)
     spawn_object("painting", 400, 200, 200, 250, "none", "static", `./sprites/objects/painting_${getRandomInt(1,3)}.png`, false, false, 0)

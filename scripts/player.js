@@ -103,6 +103,7 @@ addEventListener('keydown', (e) =>{
                 }, 100);
             }
         }
+        player.y += 20
     }
     }
 })
@@ -129,6 +130,7 @@ function gameLoop() {
         player.flip = false
     }
     if (keyState["s"] || keyState["S"] || keyState["ы"] || keyState["Ы"]){
+        player.y += 10
         sit()
     }else{
         objects.forEach(object => {
