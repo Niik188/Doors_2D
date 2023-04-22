@@ -12,7 +12,7 @@ export var player = {
     active: true,
     hide: false,
     power_physic: 0,
-    jump: true,
+    jump: false,
     sit: false,
     ground: false,
     groundY: 0,

@@ -4,6 +4,7 @@ import { gravity } from "./physics.js";
 import { collision } from "./physics.js";
 import { objects } from "./objects.js";
 import { checkCeilling } from "./player.js";
+import { checkStage } from "./map.js";
 import { roomsMass } from "./map.js";
 import { sounds } from "./sounds.js";
 import { canv } from "./utils.js";
@@ -34,10 +35,11 @@ function draw() {
     roomsMass.forEach(stage => {
       ctx.drawImage(stage.img, stage.x, stage.y-stage.img.height-110, stage.img.width*2, stage.img.height*2);
     });
-    
+    checkStage()
     objects.forEach(object => {
       ctx.drawImage(object.main, object.x, object.y, object.main.width, object.main.height)
     });
+    
     for (let i = 0; i < sounds.length; i++) {
       distanceSound(sounds[i])
       //Удаление звука, если звук прекратился

@@ -8,10 +8,10 @@ import { sit } from "./player.js"
 //Столкновение
 export function collision() {
     roomsMass.forEach(stage => {
-        if (player.y+player.h > stage.y+160&&player.x < stage.img.width*2) {
+        if (player.y+player.h > stage.y+160) {
         player.y = stage.y+161-player.h
         player.ground = true
-        }else if (player.y+player.h < stage.y+160||player.x > stage.img.width*2){
+        }else if (player.y+player.h < stage.y+160){
             player.ground = false
         }
     });
@@ -85,7 +85,7 @@ export function gravity() {
     roomsMass.forEach(stage => {
     for (let i = 0; i < objects.length; i++) {
         if (objects[i].type == "physics") {
-            if (objects[i].y + objects[i].main.height < stage.y+150||objects[i].x > stage.img.width*2) {
+            if (objects[i].y + objects[i].main.height < stage.y+150||objects[i].x < stage.x) {
                 objects[i].ground = false
                 objects[i].power_physic+=0.5
                 objects[i].y+=objects[i].power_physic

@@ -11,9 +11,9 @@ canv.height = effect_canv.height = window.innerHeight
 //Границы карты
 export var mapBounds = {
     minX:0,
-    maxX:5000,
+    maxX:100000,
     minY:0,
-    maxY:5000
+    maxY:100000
 }
 
 //Рандомизатор
