@@ -1,10 +1,10 @@
-import { stage } from "./stage.js"; 
 import { effect_canv } from "./utils.js";
 import { effect_ctx } from "./utils.js";
 import { page } from "./cursor.js"
 import { cursor } from "./cursor.js"
 import { objects } from "./objects.js";
 import { camera } from "./camera.js";
+import { roomsMass } from "./map.js";
 var radialGradient;
 var flashlight = {
     x: 0,
@@ -15,6 +15,7 @@ var flashlight = {
 
 //Освещение
 export function lighting() {
+    roomsMass.forEach(stage => {
     if (stage.type == "dark") {
         flashlight.x = page.x
         flashlight.y = page.y
@@ -38,6 +39,7 @@ export function lighting() {
                 effect_ctx.closePath();
             }
         });
+        
         effect_ctx.beginPath();
         effect_ctx.fillStyle = radialGradient;
         effect_ctx.arc(flashlight.x, flashlight.y, flashlight.power, 0, Math.PI*2, false);
@@ -45,4 +47,5 @@ export function lighting() {
         effect_ctx.closePath();
         
     }
+    });
 }

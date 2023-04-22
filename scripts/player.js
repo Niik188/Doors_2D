@@ -3,7 +3,6 @@ import { collis } from './physics.js';
 import { objects } from './objects.js';
 import { animateObject } from './animation.js';
 import { spawn_sound } from "./sounds.js";
-import { stage } from './stage.js';
 import { ctx } from './utils.js';
 import { canv } from './utils.js';
 
@@ -13,7 +12,7 @@ export var player = {
     active: true,
     hide: false,
     power_physic: 0,
-    jump: false,
+    jump: true,
     sit: false,
     ground: false,
     groundY: 0,
@@ -54,9 +53,12 @@ function player_jump() {
 
 export function sit() {
     // player.y += player.h-player.y
-    player.sit = true
-    setPicture(140,0,70,148)
-    player.h = 148
+    setTimeout(() => {
+        player.sit = true
+        setPicture(140,0,70,148)
+        player.h = 148
+    }, 150);
+    
 }
 
 export function checkCeilling(object) {
@@ -88,7 +90,8 @@ addEventListener('keydown', (e) =>{
                     spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 200)
                     player.active = false
                     player.hide = true
-                }, 100);
+                    clearTimeout()
+                }, 350);
             }
         }
     }
@@ -100,10 +103,10 @@ addEventListener('keydown', (e) =>{
                     spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 200)
                     player.hide = false
                     player.active = true
-                }, 100);
+                    clearTimeout()
+                }, 350);
             }
         }
-        player.y += 20
     }
     }
 })
@@ -130,14 +133,16 @@ function gameLoop() {
         player.flip = false
     }
     if (keyState["s"] || keyState["S"] || keyState["ы"] || keyState["Ы"]){
-        player.y += 10
+        player.y += 15
         sit()
     }else{
+        setTimeout(() => {
         objects.forEach(object => {
-        checkCeilling(object)
+            checkCeilling(object)
         });
         player.h = 188
         player.sit = false
+        }, 150);
     }
     }
     // redraw/reposition your object here

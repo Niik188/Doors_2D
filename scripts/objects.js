@@ -1,6 +1,35 @@
 //Массив с обьектами
 export var objects = []
 
+class Object{
+    constructor(name, pointX, pointY, width, height, id, type, model, collision, animation, size){
+        if (id == "none") {
+            id = `${Date.now().toString(36) + Math.random().toString(36).slice(2)}`
+        }
+        this.object = name,
+        this.x = pointX,
+        this.y = pointY,
+        this.id = id,
+        this.type = type,
+        this.main = new Image(),
+        this.model = model,
+        this.onCollision = collision,
+        this.power_physic = 0,
+        this.ground = false,
+        this.onAnimate = animation,
+        this.sizeFrame = size,
+        this.frameName = ""
+        if (animation = true) {
+            this.frameName = this.model.replace('./sprites/objects/','').replace(`_1.png`,'');
+        }
+        if (width!=0&&height!=0) {
+            this.main.width = width
+            this.main.height = height
+        }
+        this.main.src = this.model
+    }
+}
+
 //Создание обьекта с параметрами
 export function spawn_object(name, pointX, pointY, width, height, id, type, model, collision, animation, size) {
     if (id == "none") {
@@ -30,7 +59,7 @@ export function spawn_object(name, pointX, pointY, width, height, id, type, mode
         object.main.height = height
     }
     object.main.src = object.model
-    objects.push(object)
+    objects.unshift(object)
 }
 
 //Удаление обьекта(для разработчика)

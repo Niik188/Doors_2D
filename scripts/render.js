@@ -4,7 +4,7 @@ import { gravity } from "./physics.js";
 import { collision } from "./physics.js";
 import { objects } from "./objects.js";
 import { checkCeilling } from "./player.js";
-import { stage } from "./stage.js";
+import { roomsMass } from "./map.js";
 import { sounds } from "./sounds.js";
 import { canv } from "./utils.js";
 import { ctx } from "./utils.js";
@@ -31,7 +31,10 @@ function draw() {
     gravity()
     lighting()
     cameraMoving()
-    ctx.drawImage(stage.img, 0, stage.y-stage.img.height-110, stage.img.width*2, stage.img.height*2);
+    roomsMass.forEach(stage => {
+      ctx.drawImage(stage.img, stage.x, stage.y-stage.img.height-110, stage.img.width*2, stage.img.height*2);
+    });
+    
     objects.forEach(object => {
       ctx.drawImage(object.main, object.x, object.y, object.main.width, object.main.height)
     });
