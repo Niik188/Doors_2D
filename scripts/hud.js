@@ -95,12 +95,14 @@ export function renderHUD() {
     ctx.fillStyle = "red";
     ctx.font = "normal 16pt Arial";
     ctx.fillText(fps + " fps", camera.x+10, camera.y+26);
-    ctx.fillText(rooms + " room", camera.x+10, camera.y+46);
-
-    ctx.save();
-    ctx.scale(-1, 1);
-    ctx.drawImage(left_mobile.img, -left_mobile.x-camera.x, left_mobile.y+camera.y, -left_mobile.w, left_mobile.h);
-    ctx.restore();
+    ctx.fillStyle = "black";
+    ctx.font = "normal 25pt Arial";
+    ctx.fillText(rooms, roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*1.9+50, 400);
     
-    ctx.drawImage(right_mobile.img, right_mobile.x+camera.x, right_mobile.y+camera.y, right_mobile.w, right_mobile.h);
+    // ctx.save();
+    // ctx.scale(-1, 1);
+    // ctx.drawImage(left_mobile.img, -left_mobile.x-camera.x, left_mobile.y+camera.y, -left_mobile.w, left_mobile.h);
+    // ctx.restore();
+    
+    // ctx.drawImage(right_mobile.img, right_mobile.x+camera.x, right_mobile.y+camera.y, right_mobile.w, right_mobile.h);
 }

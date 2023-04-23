@@ -42,7 +42,7 @@ function draw() {
     }
     if (!player.hide) {
     if (!player.sit&&player.ground&&!player.moving) {
-        setPicture(0, 0, 70, 188)
+        setPicture(0, 0, 90, 223)
     }
     if (player.flip) {
       ctx.save();

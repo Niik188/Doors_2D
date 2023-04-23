@@ -2,32 +2,40 @@ import { setPicture } from "./player.js";
 
 //Кадры в секунду
 const SPEED_FRAME = 120
-const PLAYER_FRAME_X = 70
+const PLAYER_FRAME_X = 90
 //Анимация обьектов
 export function animateObject(object) {
     if (object.onAnimate == true) {
-        for (let i = 1; i <= object.sizeFrame; i++) {
-            object.main.src = object.model  
-            object.model = `./sprites/objects/${object.frameName}_${i}.png`;
-            setTimeout(() => {
-            object.main.src = object.model        
-            }, SPEED_FRAME);
-        }
-        setTimeout(() => {
-            object.model = `./sprites/objects/${object.frameName}_1.png`;
-            object.main.src = object.model
-        }, SPEED_FRAME+200);
+        var frames = 50;
+        object.model = `./sprites/objects/${object.frameName}_${1}.png`;
+        // for (let i = 1; i <= object.massFrame.length; i++) {
+            if (frames <= 50) {
+                var timer = setInterval(() => {
+                frames++
+                object.main.src = object.model  
+                object.model = `./sprites/objects/${object.frameName}_${object.massFrame[Math.round(frames*10/SPEED_FRAME) % object.massFrame.length]}.png`;
+                console.log(frames)
+                if (frames >= 100) {
+                     clearInterval(timer)
+                }
+                }, 10);
+            }
+            
+            
+    //         setTimeout(() => {
+    //         object.main.src = object.model        
+    //         }, SPEED_FRAME);
+        // }
+    //     setTimeout(() => {
+    //         object.model = `./sprites/objects/${object.frameName}_1.png`;
+    //         object.main.src = object.model
+    //     }, SPEED_FRAME+200);
     }
 }
 
 export function animatePlayer(player) {
     if (!player.sit) {
-        for (let i = 0; i < 2; i++) {
-            setPicture(i*PLAYER_FRAME_X, 188, 70, 188)
-            setTimeout(() => {
-                setPicture(0, 188, 70, 188)       
-            }, SPEED_FRAME/2);
+        var mass = [0,90]
+        setPicture(mass[Math.round(Date.now()/SPEED_FRAME) % mass.length], 223, 90, 223)
         }
     }
-    
-}

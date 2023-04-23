@@ -1,7 +1,7 @@
 import { spawn_object, } from "./objects.js"
 import { spawn_sound } from "./sounds.js"
 import { player } from "./player.js"
-import { getRandomInt, mapBounds } from "./utils.js"
+import { ctx, getRandomInt, mapBounds } from "./utils.js"
 //Номер комнаты
 export var rooms = 0
 export var roomsMass = []
@@ -20,7 +20,6 @@ export function checkStage() {
         console.log(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+1)
     }
     if (roomsMass.length > 5) {
-        
         roomsMass.shift()
         mapBounds.minX = roomsMass[0].x
     }
@@ -31,17 +30,19 @@ function generateMap(x) {
     img: new Image(),
     x: x,
     y: 500,
-    type: "light"
+    type: "light",
+    room: "standart"
     }
     stage.x = x
     
     if (rooms!=0) {
         if (getRandomInt(0,2)==1) {
             stage.img.src = `./sprites/background_${getRandomInt(1,6)}.png`
-            spawn_object("hide", x+70, 300, 0, 0, "none", "physics", "./sprites/objects/hide_1.png", false, true, 3)
+            
+            spawn_object("hide", x+70, 300, 0, 0, "none", "physics", "./sprites/objects/hide_1.png", false, true,[1,2,3,4])
             // spawn_object("light_off", x+500, 300, 0, 0, "none", "static", "./sprites/objects/light_off.png", false, false, 0)
             // spawn_object("light", x+500, 300, 0, 0, "none", "static", "./sprites/objects/light.png", false, false, 0)
-            spawn_object("hide", x+700, 300, 0, 0, "none", "physics", "./sprites/objects/hide_1.png", false, true, 3)
+            spawn_object("hide", x+700, 300, 0, 0, "none", "physics", "./sprites/objects/hide_1.png", false, true, [1,2,3,4])
             // spawn_object("light_off", x+1000, 300, 0, 0, "none", "static", "./sprites/objects/light_off.png", false, false, 0)
             // spawn_object("light", x+1000, 300, 0, 0, "none", "static", "./sprites/objects/light.png", false, false, 0)
         }else{
@@ -52,6 +53,7 @@ function generateMap(x) {
     }
     }else if (rooms == 0) {
         stage.img.src = `./sprites/lobby.png`
+        //spawn_object("door", x+stage.img.width*1.9+100, 0, 0, stage.img.height*2, "none", "static", "./sprites/objects/door.png", false, false)
     }
     roomsMass.push(stage)
 }

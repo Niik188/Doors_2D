@@ -14,19 +14,19 @@ export var player = {
     sit: false,
     ground: false,
     groundY: 0,
-    speed: 2,
+    speed: 1,
     speed_left: 0,
     speed_right: 0,
     moving: false,
     flip: false,
     x: 0,
     y: 0,
-    w: 70,
-    h: 188,
+    w: 90,
+    h: 223,
     pictureX: 0,
     pictureY: 0,
-    pictureW: 70,
-    pictureH: 188
+    pictureW: 90,
+    pictureH: 223
 }
 
 export function setPicture(x,y,w,h) {
@@ -37,7 +37,7 @@ export function setPicture(x,y,w,h) {
 }
 
 //назначение картинки
-player.img.src = './sprites/player.png';
+player.img.src = './sprites/player_new.png';
 
 //Прыжок
 function player_jump() {
@@ -56,8 +56,8 @@ export function sit() {
     player.moving = false
     setTimeout(() => {
         player.sit = true
-        setPicture(140,0,70,148)
-        player.h = 148
+        setPicture(180,0,92,196)
+        player.h = 160
     }, 150);
     player.speed = 1
 }
@@ -91,8 +91,7 @@ addEventListener('keydown', (e) =>{
                     spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 800)
                     player.active = false
                     player.hide = true
-                    clearTimeout()
-                }, 350);
+                }, 100);
             }
         }
     }
@@ -104,8 +103,7 @@ addEventListener('keydown', (e) =>{
                     spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 800)
                     player.hide = false
                     player.active = true
-                    clearTimeout()
-                }, 350);
+                }, 100);
             }
         }
     }
@@ -128,7 +126,7 @@ function gameLoop() {
         player.flip = true
         if (!player.sit) {
             animatePlayer(player)
-            player.speed = 2
+            player.speed = 1.5
             player.moving = true
         }
     }
@@ -140,12 +138,12 @@ function gameLoop() {
         player.flip = false
         if (!player.sit) {
             animatePlayer(player)
-            player.speed = 2
+            player.speed = 1.5
             player.moving = true
         }
     }
     if (keyState["s"] || keyState["S"] || keyState["ы"] || keyState["Ы"]){
-        player.y += 15
+        player.y += 27
         sit()
     }else{
         setTimeout(() => {
