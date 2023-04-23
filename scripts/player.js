@@ -88,7 +88,7 @@ addEventListener('keydown', (e) =>{
                     animateObject(objects[i])
                     player.x = objects[i].x + objects[i].main.width/2 - player.w/2
                     player.y = objects[i].y + objects[i].main.height/2 - player.h/2
-                    spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 200)
+                    spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 800)
                     player.active = false
                     player.hide = true
                     clearTimeout()
@@ -101,7 +101,7 @@ addEventListener('keydown', (e) =>{
             if (objects[i].object == "hide"&& player.hide) {
                 setTimeout(() => {
                     animateObject(objects[i])
-                    spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 200)
+                    spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 800)
                     player.hide = false
                     player.active = true
                     clearTimeout()

@@ -9,6 +9,7 @@ import { animatePlayer } from "./animation.js";
 var clickState;    
 window.addEventListener('touchstart',function(e){
     clickState = setInterval(() => {
+        if (player.active) {
         if (cursor.x>right_mobile.x+camera.x&&
         cursor.x<(right_mobile.x+right_mobile.w)+camera.x&&
         cursor.y>right_mobile.y+camera.y
@@ -35,6 +36,7 @@ window.addEventListener('touchstart',function(e){
                     player.moving = true
                 }
             }
+        }
     }, 10);
 },true);    
 window.addEventListener('touchend',function(){
@@ -42,6 +44,7 @@ window.addEventListener('touchend',function(){
 },true);
 
 var right_mobile = {
+    x: 10,
     y: canv.height/2,
     w: 130,
     h: 120,
