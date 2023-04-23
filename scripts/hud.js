@@ -7,7 +7,7 @@ import { player } from "./player.js";
 import { animatePlayer } from "./animation.js";
 
 var clickState;    
-window.addEventListener('mousedown',function(){
+window.addEventListener('touchstart',function(e){
     clickState = setInterval(() => {
         if (cursor.x>right_mobile.x+camera.x&&
         cursor.x<(right_mobile.x+right_mobile.w)+camera.x&&
@@ -37,12 +37,11 @@ window.addEventListener('mousedown',function(){
             }
     }, 10);
 },true);    
-window.addEventListener('mouseup',function(){
+window.addEventListener('touchend',function(){
     clearInterval(clickState)
 },true);
 
 var right_mobile = {
-    x: 150,
     y: canv.height/2,
     w: 130,
     h: 120,
@@ -64,6 +63,8 @@ var times = [];
 var fps;
 
 export function renderHUD() {
+    right_mobile.x = window.innerWidth-100
+    right_mobile.y = left_mobile.y = window.innerHeight/2
     //Рассчёт fps
     const now = performance.now();
     while (times.length > 0 && times[0] <= now - 1000) {
@@ -95,7 +96,7 @@ export function renderHUD() {
 
     ctx.save();
     ctx.scale(-1, 1);
-    ctx.drawImage(left_mobile.img, -left_mobile.x-camera.x, left_mobile.y-camera.y, -left_mobile.w, left_mobile.h);
+    ctx.drawImage(left_mobile.img, -left_mobile.x-camera.x, left_mobile.y+camera.y, -left_mobile.w, left_mobile.h);
     ctx.restore();
     
     ctx.drawImage(right_mobile.img, right_mobile.x+camera.x, right_mobile.y+camera.y, right_mobile.w, right_mobile.h);
