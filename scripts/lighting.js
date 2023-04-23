@@ -1,7 +1,5 @@
-import { effect_canv } from "./utils.js";
-import { effect_ctx } from "./utils.js";
-import { page } from "./cursor.js"
-import { cursor } from "./cursor.js"
+import { effect_canv, effect_ctx } from "./utils.js";
+import { page, cursor } from "./cursor.js"
 import { objects } from "./objects.js";
 import { camera } from "./camera.js";
 import { roomsMass } from "./map.js";

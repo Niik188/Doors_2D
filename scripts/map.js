@@ -1,10 +1,9 @@
-import { spawn_object } from "./objects.js"
+import { spawn_object, } from "./objects.js"
 import { spawn_sound } from "./sounds.js"
 import { player } from "./player.js"
-import { getRandomInt } from "./utils.js"
-import { mapBounds } from "./utils.js"
+import { getRandomInt, mapBounds } from "./utils.js"
 //Номер комнаты
-var rooms = 0
+export var rooms = 0
 export var roomsMass = []
 
 //параметр фона
@@ -13,13 +12,14 @@ export var roomsMass = []
 generateMap(100)
 
 export function checkStage() {
+    mapBounds.maxX = roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+10
     if (player.x-10+player.w > roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2) {
         rooms++
         
         generateMap(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+1)
         console.log(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+1)
     }
-    if (roomsMass.length > 3) {
+    if (roomsMass.length > 5) {
         
         roomsMass.shift()
         mapBounds.minX = roomsMass[0].x

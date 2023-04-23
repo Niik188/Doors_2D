@@ -1,22 +1,15 @@
 import { renderHUD } from "./hud.js";
-import { player } from "./player.js";
-import { gravity } from "./physics.js";
-import { collision } from "./physics.js";
+import { player, checkCeilling, setPicture } from "./player.js";
+import { gravity, collision } from "./physics.js";
 import { objects } from "./objects.js";
-import { checkCeilling } from "./player.js";
-import { checkStage } from "./map.js";
-import { roomsMass } from "./map.js";
-import { sounds } from "./sounds.js";
-import { canv } from "./utils.js";
-import { ctx } from "./utils.js";
-import { effect_canv } from "./utils.js";
+import { checkStage, roomsMass } from "./map.js";
+import { sounds, distanceSound } from "./sounds.js";
+import { canv, ctx, effect_canv } from "./utils.js";
 import { lighting } from "./lighting.js";
-import { distanceSound } from "./sounds.js";
-import { cameraMoving } from "./camera.js";
-
+import { cameraMoving } from "./camera.js"
 
 //Размер отдельных кадров игрока
-const PLAYER_PICTURE_SIZE = 70
+const PLAYER_PICTURE_Y_SIZE = 188
 
 //Зарисовка обьектов на холст
 function draw() {
@@ -48,6 +41,9 @@ function draw() {
       }
     }
     if (!player.hide) {
+    if (!player.sit&&player.ground&&!player.moving) {
+        setPicture(0, 0, 70, 188)
+    }
     if (player.flip) {
       ctx.save();
       ctx.scale(-1, 1);

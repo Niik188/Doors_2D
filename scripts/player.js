@@ -1,10 +1,8 @@
-import { collision } from './physics.js';
-import { collis } from './physics.js';
+import { collision, collis } from './physics.js';
 import { objects } from './objects.js';
-import { animateObject } from './animation.js';
+import { animateObject, animatePlayer } from './animation.js';
 import { spawn_sound } from "./sounds.js";
-import { ctx } from './utils.js';
-import { canv } from './utils.js';
+import { ctx, canv} from './utils.js';
 
 //параметр игрока
 export var player = {
@@ -16,8 +14,10 @@ export var player = {
     sit: false,
     ground: false,
     groundY: 0,
-    speed_left: 5,
-    speed_right: 5,
+    speed: 2,
+    speed_left: 0,
+    speed_right: 0,
+    moving: false,
     flip: false,
     x: 0,
     y: 0,
@@ -53,12 +53,13 @@ function player_jump() {
 
 export function sit() {
     // player.y += player.h-player.y
+    player.moving = false
     setTimeout(() => {
         player.sit = true
         setPicture(140,0,70,148)
         player.h = 148
     }, 150);
-    
+    player.speed = 1
 }
 
 export function checkCeilling(object) {
@@ -117,20 +118,31 @@ window.addEventListener('keydown',function(e){
 },true);    
 window.addEventListener('keyup',function(e){
     keyState[e.key] = false;
+    player.moving = false
 },true);
 
 function gameLoop() {
     if (player.active) {
     if (keyState["a"] || keyState["A"] || keyState["ф"] || keyState["Ф"]){ 
-        player.x -= player.speed_left;
+        player.x -= player.speed_left*player.speed;
         player.flip = true
+        if (!player.sit) {
+            animatePlayer(player)
+            player.speed = 2
+            player.moving = true
+        }
     }
     if (keyState["w"] || keyState["W"] || keyState["ц"] || keyState["Ц"]){
         player_jump()
     }
     if (keyState["d"] || keyState["D"] || keyState["в"] || keyState["В"]){
-        player.x += player.speed_right;
+        player.x += player.speed_right*player.speed;
         player.flip = false
+        if (!player.sit) {
+            animatePlayer(player)
+            player.speed = 2
+            player.moving = true
+        }
     }
     if (keyState["s"] || keyState["S"] || keyState["ы"] || keyState["Ы"]){
         player.y += 15

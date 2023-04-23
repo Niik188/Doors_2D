@@ -1,10 +1,6 @@
-import { canv } from "./utils.js"
-import { ctx } from "./utils.js"
-import { effect_ctx } from "./utils.js"
+import { canv, ctx, effect_ctx, mapBounds } from "./utils.js"
 import { player } from "./player.js"
-import { cursor } from "./cursor.js"
-import { page } from "./cursor.js"
-import { mapBounds } from "./utils.js"
+import { cursor, page } from "./cursor.js"
 export var camera = {
     x:0,
     y:0

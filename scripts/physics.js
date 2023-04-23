@@ -1,9 +1,7 @@
-import { player } from "./player.js"
-import { setPicture } from "./player.js"
+import { player, setPicture, sit } from "./player.js"
 import { objects } from "./objects.js"
 import { roomsMass } from "./map.js"
 import { mapBounds } from "./utils.js"
-import { sit } from "./player.js"
 
 //Столкновение
 export function collision() {
@@ -50,12 +48,14 @@ export function collision() {
                 player.y < objects[i].y+objects[i].main.height-10) {
                 player.x = objects[i].x+1-player.w
                 player.speed_right = 0
+                player.moving = false
             }else if (player.x < objects[i].x + objects[i].main.width&&
                 player.x + player.w > objects[i].x+objects[i].main.width/2&&
                 player.y + player.h > objects[i].y+10&&
                 player.y < objects[i].y+objects[i].main.height-10) {
                 player.x = (objects[i].x + objects[i].main.width)-1
                 player.speed_left = 0
+                player.moving = false
             }else{
                 player.speed_right = 5
                 player.speed_left = 5
@@ -78,9 +78,6 @@ export function gravity() {
         }
     }else{
         player.power_physic=0
-        if (!player.sit) {
-            setPicture(0, 0, 70, 188)
-        }
     }
     roomsMass.forEach(stage => {
     for (let i = 0; i < objects.length; i++) {

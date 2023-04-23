@@ -1,12 +1,64 @@
-import { canv } from "./utils.js";
-import { ctx } from "./utils.js";
-import { effect_canv } from "./utils.js";
-import { effect_ctx } from "./utils.js";
+import { canv, ctx, effect_canv, effect_ctx } from "./utils.js";
 import { cursor } from "./cursor.js";
 import { camera } from "./camera.js";
-import { roomsMass } from "./map.js";
+import { roomsMass, rooms } from "./map.js";
 import { objects } from "./objects.js";
+import { player } from "./player.js";
+import { animatePlayer } from "./animation.js";
 
+var clickState;    
+window.addEventListener('mousedown',function(){
+    clickState = setInterval(() => {
+        if (cursor.x>right_mobile.x+camera.x&&
+        cursor.x<(right_mobile.x+right_mobile.w)+camera.x&&
+        cursor.y>right_mobile.y+camera.y
+        &&cursor.y<(right_mobile.y+right_mobile.h)+camera.y
+        ) {
+            player.x += player.speed_right*player.speed;
+            player.flip = false
+            if (!player.sit) {
+                animatePlayer(player)
+                player.speed = 2
+                player.moving = true
+            }
+        }
+        if (cursor.x>left_mobile.x+camera.x&&
+            cursor.x<(left_mobile.x+left_mobile.w)+camera.x&&
+            cursor.y>left_mobile.y+camera.y
+            &&cursor.y<(left_mobile.y+left_mobile.h)+camera.y
+            ) {
+                player.x -= player.speed_left*player.speed;
+                player.flip = true
+                if (!player.sit) {
+                    animatePlayer(player)
+                    player.speed = 2
+                    player.moving = true
+                }
+            }
+    }, 10);
+},true);    
+window.addEventListener('mouseup',function(){
+    clearInterval(clickState)
+},true);
+
+var right_mobile = {
+    x: 150,
+    y: canv.height/2,
+    w: 130,
+    h: 120,
+    img: new Image()
+}
+
+var left_mobile = {
+    x: 10,
+    y: canv.height/2,
+    w: 130,
+    h: 120,
+    img: new Image()
+}
+
+right_mobile.img.src = "./sprites/mobile/right_button.png"
+left_mobile.img.src = "./sprites/mobile/right_button.png"
 //Счётчик кадров в сек.
 var times = [];
 var fps;
@@ -35,10 +87,16 @@ export function renderHUD() {
     }
     //Показ fps
     });
-    
     ctx.drawImage(cursor.img, cursor.x-cursor.img.width/2, cursor.y-cursor.img.height/2);
     ctx.fillStyle = "red";
     ctx.font = "normal 16pt Arial";
     ctx.fillText(fps + " fps", camera.x+10, camera.y+26);
+    ctx.fillText(rooms + " room", camera.x+10, camera.y+46);
+
+    ctx.save();
+    ctx.scale(-1, 1);
+    ctx.drawImage(left_mobile.img, -left_mobile.x-camera.x, left_mobile.y-camera.y, -left_mobile.w, left_mobile.h);
+    ctx.restore();
     
+    ctx.drawImage(right_mobile.img, right_mobile.x+camera.x, right_mobile.y+camera.y, right_mobile.w, right_mobile.h);
 }
