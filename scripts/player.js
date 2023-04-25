@@ -1,8 +1,8 @@
-import { collision, collis } from './physics.js';
+import { collis } from './physics.js';
 import { objects } from './objects.js';
 import { animateObject, animatePlayer } from './animation.js';
 import { spawn_sound } from "./sounds.js";
-import { ctx, canv} from './utils.js';
+import { ctx} from './utils.js';
 
 //параметр игрока
 export var player = {
@@ -26,9 +26,29 @@ export var player = {
     pictureX: 0,
     pictureY: 0,
     pictureW: 90,
-    pictureH: 223
+    pictureH: 223,
+    draw(){
+    player.img.src = './sprites/player_new.png';
+        if (!player.hide) {
+        if (!player.sit&&player.ground&&!player.moving) {
+            setPicture(0, 0, 90, 223)
+        }
+        if (player.sit&&player.ground&&!player.moving) {
+            setPicture(0, 448,92,195)
+        }
+        if (player.flip) {
+            ctx.save();
+            ctx.scale(-1, 1);
+            ctx.drawImage(player.img, player.pictureX, player.pictureY, player.pictureW, player.pictureH, player.x*-1, player.y, player.w*-1, player.h);
+            ctx.restore();
+        }else{
+            ctx.drawImage(player.img, player.pictureX, player.pictureY, player.pictureW, player.pictureH, player.x, player.y, player.w, player.h);
+        }
+        }
+    }
 }
 
+//Размер и координаты спрайта у игрока
 export function setPicture(x,y,w,h) {
     player.pictureX = x
     player.pictureY = y
@@ -51,6 +71,7 @@ function player_jump() {
     }}
 }
 
+//При присяди
 export function sit() {
     // player.y += player.h-player.y
     setTimeout(() => {
@@ -58,9 +79,10 @@ export function sit() {
         // setPicture(0,448,92,195)
         player.h = 160
     }, 150);
-    player.speed = 1
+    player.speed = 0.8
 }
 
+//Проверка потолка
 export function checkCeilling(object) {
     if(object.onCollision){
     if (player.x + player.w > object.x+20 && player.x < object.x-20 + object.main.width&&player.y-21 < object.y+object.main.height&&player.y-25 + player.h > object.y+object.main.height/1.5) {

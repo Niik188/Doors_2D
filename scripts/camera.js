@@ -5,9 +5,11 @@ export var camera = {
     x:0,
     y:0
 }
+
+//Движение камеры
 export function cameraMoving() {
     camera.x = clamp(player.x - canv.width/2, mapBounds.minX, mapBounds.maxX - canv.width);
-    camera.y = clamp(player.y - canv.height/1.5, mapBounds.minY, mapBounds.maxY - canv.height);
+    camera.y = clamp(player.y - canv.height/2, mapBounds.minY, mapBounds.maxY - canv.height);
     effect_ctx.translate(-camera.x, -camera.y);
     ctx.translate(-camera.x, -camera.y);
     cursor.x = page.x + camera.x

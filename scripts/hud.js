@@ -1,47 +1,13 @@
 import { canv, ctx, effect_canv, effect_ctx } from "./utils.js";
 import { cursor } from "./cursor.js";
 import { camera } from "./camera.js";
-import { roomsMass, rooms } from "./map.js";
+import { roomsMass, rooms, before_rooms } from "./map.js";
 import { objects } from "./objects.js";
 import { player } from "./player.js";
 import { animatePlayer } from "./animation.js";
 
-var clickState;    
-window.addEventListener('touchstart',function(e){
-    clickState = setInterval(() => {
-        if (player.active) {
-        if (cursor.x>right_mobile.x+camera.x&&
-        cursor.x<(right_mobile.x+right_mobile.w)+camera.x&&
-        cursor.y>right_mobile.y+camera.y
-        &&cursor.y<(right_mobile.y+right_mobile.h)+camera.y
-        ) {
-            player.x += player.speed_right*player.speed;
-            player.flip = false
-            if (!player.sit) {
-                animatePlayer(player)
-                player.speed = 2
-                player.moving = true
-            }
-        }
-        if (cursor.x>left_mobile.x+camera.x&&
-            cursor.x<(left_mobile.x+left_mobile.w)+camera.x&&
-            cursor.y>left_mobile.y+camera.y
-            &&cursor.y<(left_mobile.y+left_mobile.h)+camera.y
-            ) {
-                player.x -= player.speed_left*player.speed;
-                player.flip = true
-                if (!player.sit) {
-                    animatePlayer(player)
-                    player.speed = 2
-                    player.moving = true
-                }
-            }
-        }
-    }, 10);
-},true);    
-window.addEventListener('touchend',function(){
-    clearInterval(clickState)
-},true);
+var doorTable = new Image()
+doorTable.src = "./sprites/door.png"
 
 var right_mobile = {
     x: 10,
@@ -64,6 +30,43 @@ left_mobile.img.src = "./sprites/mobile/right_button.png"
 //Счётчик кадров в сек.
 var times = [];
 var fps;
+
+var clickState;    
+window.addEventListener('touchstart',function(e){
+    clickState = setInterval(() => {
+        if (player.active) {
+        if (cursor.x>right_mobile.x+camera.x&&
+        cursor.x<(right_mobile.x+right_mobile.w)+camera.x&&
+        cursor.y>right_mobile.y+camera.y
+        &&cursor.y<(right_mobile.y+right_mobile.h)+camera.y
+        ) {
+            player.x += player.speed_right*player.speed;
+            player.flip = false
+            animatePlayer(player)
+            player.moving = true
+            if (!player.sit) {
+                player.speed = 2
+            }
+        }
+        if (cursor.x>left_mobile.x+camera.x&&
+            cursor.x<(left_mobile.x+left_mobile.w)+camera.x&&
+            cursor.y>left_mobile.y+camera.y
+            &&cursor.y<(left_mobile.y+left_mobile.h)+camera.y
+            ) {
+                player.x -= player.speed_left*player.speed;
+                player.flip = true
+                animatePlayer(player)
+                player.moving = true
+                if (!player.sit) {
+                    player.speed = 2
+                }
+            }
+        }
+    }, 10);
+},true);    
+window.addEventListener('touchend',function(){
+    clearInterval(clickState)
+},true);
 
 export function renderHUD() {
     right_mobile.x = window.innerWidth-100
@@ -96,8 +99,23 @@ export function renderHUD() {
     ctx.font = "normal 16pt Arial";
     ctx.fillText(fps + " fps", camera.x+10, camera.y+26);
     ctx.fillStyle = "black";
-    ctx.font = "normal 25pt Arial";
-    ctx.fillText(rooms, roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*1.9+50, 400);
+    ctx.font = "normal 20pt Arial";
+    ctx.drawImage(doorTable, roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2-100, 365)
+    if (roomsMass[roomsMass.length-2] != undefined) {
+    ctx.drawImage(doorTable, roomsMass[roomsMass.length-2].x+roomsMass[roomsMass.length-2].img.width*2-100, 365)
+    }
+    if (rooms<10) {
+        ctx.fillText("000"+rooms, roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2-80, 395);
+        if (roomsMass[roomsMass.length-2] != undefined) {
+            ctx.fillText("000"+before_rooms, roomsMass[roomsMass.length-2].x+roomsMass[roomsMass.length-2].img.width*2-80, 395);
+        }
+    }else if (rooms>=10){
+        ctx.fillText("00"+rooms, roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2-80, 395);
+        if (roomsMass[roomsMass.length-2] != undefined) {
+            ctx.fillText("00"+before_rooms, roomsMass[roomsMass.length-2].x+roomsMass[roomsMass.length-2].img.width*2-80, 395);
+        }
+    }
+    
     
     // ctx.save();
     // ctx.scale(-1, 1);

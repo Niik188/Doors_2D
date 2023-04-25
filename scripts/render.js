@@ -1,15 +1,13 @@
 import { renderHUD } from "./hud.js";
-import { player, checkCeilling, setPicture } from "./player.js";
+import { player } from "./player.js";
 import { gravity, collision } from "./physics.js";
 import { objects } from "./objects.js";
-import { checkStage, roomsMass } from "./map.js";
+import { background, checkStage, roomsMass } from "./map.js";
 import { sounds, distanceSound } from "./sounds.js";
-import { canv, ctx, effect_canv } from "./utils.js";
+import { canv, ctx, effect_canv, getRandomInt } from "./utils.js";
 import { lighting } from "./lighting.js";
-import { cameraMoving } from "./camera.js"
-
-//Размер отдельных кадров игрока
-const PLAYER_PICTURE_Y_SIZE = 188
+import { camera, cameraMoving } from "./camera.js"
+import { animateBackground } from "./animation.js";
 
 //Зарисовка обьектов на холст
 function draw() {
@@ -25,12 +23,14 @@ function draw() {
     gravity()
     lighting()
     cameraMoving()
+    animateBackground(background)
+    ctx.drawImage(background.img, background.source_x, background.source_y, background.source_w, background.source_h, getRandomInt(100,600)+camera.x, camera.y, 1000, 500)
     roomsMass.forEach(stage => {
       ctx.drawImage(stage.img, stage.x, stage.y-stage.img.height-110, stage.img.width*2, stage.img.height*2);
     });
     checkStage()
     objects.forEach(object => {
-      ctx.drawImage(object.main, object.x, object.y, object.main.width, object.main.height)
+      object.draw()
     });
     
     for (let i = 0; i < sounds.length; i++) {
@@ -40,22 +40,7 @@ function draw() {
         sounds.splice(i, 1)
       }
     }
-    if (!player.hide) {
-    if (!player.sit&&player.ground&&!player.moving) {
-        setPicture(0, 0, 90, 223)
-    }
-    if (player.sit&&player.ground&&!player.moving) {
-        setPicture(0, 448,92,195)
-    }
-    if (player.flip) {
-      ctx.save();
-      ctx.scale(-1, 1);
-      ctx.drawImage(player.img, player.pictureX, player.pictureY, player.pictureW, player.pictureH, player.x*-1, player.y, player.w*-1, player.h);
-      ctx.restore();
-    }else{
-      ctx.drawImage(player.img, player.pictureX, player.pictureY, player.pictureW, player.pictureH, player.x, player.y, player.w, player.h);
-    }
-    }
+    player.draw()
     renderHUD()
 }
 

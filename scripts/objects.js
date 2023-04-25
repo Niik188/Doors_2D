@@ -1,3 +1,5 @@
+import { ctx } from "./utils.js";
+
 //Массив с обьектами
 export var objects = []
 
@@ -49,7 +51,10 @@ export function spawn_object(name, pointX, pointY, width, height, id, type, mode
         ground: false,
         onAnimate: animation,
         massFrame: frames,
-        frameName: ""
+        frameName: "",
+        draw(){
+            ctx.drawImage(object.main, object.x, object.y, object.main.width, object.main.height)
+        }
     }
     if (animation = true) {
         object.frameName = object.model.replace('./sprites/objects/','').replace(`_1.png`,'');

@@ -1,41 +1,54 @@
 import { spawn_object, } from "./objects.js"
 import { spawn_sound } from "./sounds.js"
 import { player } from "./player.js"
-import { ctx, getRandomInt, mapBounds } from "./utils.js"
+import { getRandomInt, mapBounds } from "./utils.js"
 //Номер комнаты
-export var rooms = 0
+export var rooms = 1
+export var before_rooms = 0
 export var roomsMass = []
 
 //параметр фона
+export var background = {
+    source_x: 0,
+    source_y: 0,
+    source_w: 1000,
+    source_h: 1000,
+    img: new Image()
+}
+
+background.img.src = "./sprites/rain.png"
 
 //При старте
-generateMap(100)
+generateMap(100, "standart")
 
 export function checkStage() {
     mapBounds.maxX = roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+10
-    if (player.x-10+player.w > roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2) {
-        rooms++
-        
-        generateMap(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+1)
-        console.log(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+1)
-    }
     if (roomsMass.length > 5) {
         roomsMass.shift()
         mapBounds.minX = roomsMass[0].x
+        }
+    if (roomsMass[roomsMass.length-1].room != "key") {
+        if (player.x-10+player.w > roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2) {
+        rooms++
+        before_rooms++
+        generateMap(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+1)
+        console.log(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+1)
+        }
     }
+    
 }
 
-function generateMap(x) {
+function generateMap(x, room) {
     var stage = {
     img: new Image(),
     x: x,
     y: 500,
     type: "light",
-    room: "standart"
+    room: room
     }
     stage.x = x
     
-    if (rooms!=0) {
+    if (rooms!=0+1) {
         if (getRandomInt(0,2)==1) {
             stage.img.src = `./sprites/background_${getRandomInt(1,6)}.png`
             
@@ -51,9 +64,10 @@ function generateMap(x) {
             spawn_object("painting", x+400, 200, 200, 250, "none", "static", `./sprites/objects/painting_${getRandomInt(1,3)}.png`, false, false, 0)
             spawn_object("dresser", x+700, 460, 0, 0, "none", "physics", "./sprites/objects/dresser_2.png", false, false, 0)
     }
-    }else if (rooms == 0) {
+    }else if (rooms == 0+1) {
         stage.img.src = `./sprites/lobby.png`
         //spawn_object("door", x+stage.img.width*1.9+100, 0, 0, stage.img.height*2, "none", "static", "./sprites/objects/door.png", false, false)
+        
     }
     roomsMass.push(stage)
 }
