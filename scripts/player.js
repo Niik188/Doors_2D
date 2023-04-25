@@ -53,10 +53,9 @@ function player_jump() {
 
 export function sit() {
     // player.y += player.h-player.y
-    player.moving = false
     setTimeout(() => {
         player.sit = true
-        setPicture(180,0,92,196)
+        // setPicture(0,448,92,195)
         player.h = 160
     }, 150);
     player.speed = 1
@@ -116,7 +115,6 @@ window.addEventListener('keydown',function(e){
 },true);    
 window.addEventListener('keyup',function(e){
     keyState[e.key] = false;
-    player.moving = false
 },true);
 
 function gameLoop() {
@@ -124,24 +122,27 @@ function gameLoop() {
     if (keyState["a"] || keyState["A"] || keyState["ф"] || keyState["Ф"]){ 
         player.x -= player.speed_left*player.speed;
         player.flip = true
+        player.moving = true
+        animatePlayer(player)
         if (!player.sit) {
-            animatePlayer(player)
             player.speed = 1.5
-            player.moving = true
         }
     }
+
     if (keyState["w"] || keyState["W"] || keyState["ц"] || keyState["Ц"]){
         player_jump()
     }
+
     if (keyState["d"] || keyState["D"] || keyState["в"] || keyState["В"]){
         player.x += player.speed_right*player.speed;
         player.flip = false
+        player.moving = true
+        animatePlayer(player)
         if (!player.sit) {
-            animatePlayer(player)
             player.speed = 1.5
-            player.moving = true
         }
     }
+
     if (keyState["s"] || keyState["S"] || keyState["ы"] || keyState["Ы"]){
         player.y += 27
         sit()
@@ -153,6 +154,10 @@ function gameLoop() {
         player.h = 188
         player.sit = false
         }, 150);
+    }
+
+    if (!keyState["d"] && !keyState["D"] && !keyState["в"] && !keyState["В"]&& !keyState["a"] && !keyState["A"] && !keyState["ф"] && !keyState["Ф"]){
+        player.moving = false
     }
     }
     // redraw/reposition your object here

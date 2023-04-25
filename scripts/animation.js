@@ -2,7 +2,6 @@ import { setPicture } from "./player.js";
 
 //Кадры в секунду
 const SPEED_FRAME = 120
-const PLAYER_FRAME_X = 90
 //Анимация обьектов
 export function animateObject(object) {
     if (object.onAnimate == true) {
@@ -36,6 +35,9 @@ export function animateObject(object) {
 export function animatePlayer(player) {
     if (!player.sit) {
         var mass = [0,90]
-        setPicture(mass[Math.round(Date.now()/SPEED_FRAME) % mass.length], 223, 90, 223)
-        }
+        setPicture(mass[Math.round(Date.now()/SPEED_FRAME) % mass.length], 224, 90, 223)
     }
+    if(player.sit){
+        var mass = [0,92,184]
+        setPicture(mass[Math.round(Date.now()/SPEED_FRAME) % mass.length], 448,92,195)
+    }}

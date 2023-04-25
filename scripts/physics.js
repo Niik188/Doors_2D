@@ -74,7 +74,7 @@ export function gravity() {
         player.power_physic+=0.5
         player.y+=player.power_physic
         if (!player.sit) {
-        setPicture(90, 0, 90, 223)
+        setPicture(0, 645, 90, 223)
         }
     }else{
         player.power_physic=0

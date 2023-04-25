@@ -44,6 +44,9 @@ function draw() {
     if (!player.sit&&player.ground&&!player.moving) {
         setPicture(0, 0, 90, 223)
     }
+    if (player.sit&&player.ground&&!player.moving) {
+        setPicture(0, 448,92,195)
+    }
     if (player.flip) {
       ctx.save();
       ctx.scale(-1, 1);
