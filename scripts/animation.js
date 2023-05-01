@@ -29,7 +29,7 @@ export function animatePlayer(player) {
     }
     if(player.sit){
         var mass = [0,92,184]
-        setPicture(mass[Math.round(Date.now()/SPEED_FRAME) % mass.length], 448,92,195)
+        setPicture(mass[Math.round(Date.now()/SPEED_FRAME) % mass.length], 448,92,194)
     }}
 
 export function animateBackground(background) {

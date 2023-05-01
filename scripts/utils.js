@@ -4,6 +4,9 @@ export const ctx = canv.getContext("2d");
 //Параметры эффекта(освещение)
 export var effect_canv = document.getElementById('effects')
 export const effect_ctx = effect_canv.getContext("2d");
+export var font = new FontFace('Main_Font', 'url(./font/typewriter.ttf)');
+
+document.fonts.add(font);
 
 canv.width = effect_canv.width = window.innerWidth
 canv.style.width = effect_canv.style.width = window.innerWidth

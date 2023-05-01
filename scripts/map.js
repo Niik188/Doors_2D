@@ -23,16 +23,18 @@ generateMap(100, "standart")
 
 export function checkStage() {
     mapBounds.maxX = roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+10
-    if (roomsMass.length > 5) {
-        roomsMass.shift()
-        mapBounds.minX = roomsMass[0].x
+    if (roomsMass.length) {
+        if (roomsMass.length > 5) {
+            roomsMass.shift()
+            mapBounds.minX = roomsMass[0].x
         }
-    if (roomsMass[roomsMass.length-1].room != "key") {
-        if (player.x-10+player.w > roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2) {
-        rooms++
-        before_rooms++
-        generateMap(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+1)
-        console.log(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+1)
+        if (roomsMass[roomsMass.length-1].room != "key") {
+            if (player.x-10+player.w > roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2) {
+                rooms++
+                before_rooms++
+                generateMap(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+1)
+                console.log(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+1)
+            }
         }
     }
     
@@ -47,22 +49,21 @@ function generateMap(x, room) {
     room: room
     }
     stage.x = x
-    
     if (rooms!=0+1) {
         if (getRandomInt(0,2)==1) {
             stage.img.src = `./sprites/background_${getRandomInt(1,6)}.png`
-            
-            spawn_object("hide", x+70, 300, 0, 0, "none", "physics", "./sprites/objects/hide_1.png", false, true,[1,2,3,4])
+            // spawn_object(false, "ground", x+70, 300, 0, 0, "none", "physics", "", true, true,[1,2,3,4])
+            spawn_object(true, "hide", x+70, 300, 0, 0, "none", "physics", "./sprites/objects/hide_1.png", false, true,[1,2,3,4])
             // spawn_object("light_off", x+500, 300, 0, 0, "none", "static", "./sprites/objects/light_off.png", false, false, 0)
             // spawn_object("light", x+500, 300, 0, 0, "none", "static", "./sprites/objects/light.png", false, false, 0)
-            spawn_object("hide", x+700, 300, 0, 0, "none", "physics", "./sprites/objects/hide_1.png", false, true, [1,2,3,4])
+            spawn_object(true, "hide", x+700, 300, 0, 0, "none", "physics", "./sprites/objects/hide_1.png", false, true, [1,2,3,4])
             // spawn_object("light_off", x+1000, 300, 0, 0, "none", "static", "./sprites/objects/light_off.png", false, false, 0)
             // spawn_object("light", x+1000, 300, 0, 0, "none", "static", "./sprites/objects/light.png", false, false, 0)
         }else{
             stage.img.src = `./sprites/background_${getRandomInt(1,6)}.png`
-            spawn_object("dresser", x+70, 460, 0, 0, "none", "physics", "./sprites/objects/dresser_1.png", false, false, 0)
-            spawn_object("painting", x+400, 200, 200, 250, "none", "static", `./sprites/objects/painting_${getRandomInt(1,3)}.png`, false, false, 0)
-            spawn_object("dresser", x+700, 460, 0, 0, "none", "physics", "./sprites/objects/dresser_2.png", false, false, 0)
+            spawn_object(true, "dresser", x+70, 460, 0, 0, "none", "physics", "./sprites/objects/dresser_background.png", false, false, 0)
+            spawn_object(true, "painting", x+400, 200, 200, 250, "none", "static", `./sprites/objects/painting_${getRandomInt(1,3)}.png`, false, false, 0)
+            spawn_object(true, "dresser", x+700, 460, 0, 0, "none", "physics", "./sprites/objects/dresser_background.png", false, false, 0)
     }
     }else if (rooms == 0+1) {
         stage.img.src = `./sprites/lobby.png`

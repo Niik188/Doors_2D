@@ -1,4 +1,4 @@
-import { ctx } from "./utils.js";
+import { ctx, getRandomInt } from "./utils.js";
 
 //Массив с обьектами
 export var objects = []
@@ -33,7 +33,7 @@ class Object{
 }
 
 //Создание обьекта с параметрами
-export function spawn_object(name, pointX, pointY, width, height, id, type, model, collision, animation, frames) {
+export function spawn_object(visible, name, pointX, pointY, width, height, id, type, model, collision, animation, frames) {
     if (id == "none") {
         id = `${Date.now().toString(36) + Math.random().toString(36).slice(2)}`
     }
@@ -42,8 +42,11 @@ export function spawn_object(name, pointX, pointY, width, height, id, type, mode
         object: name,
         x: pointX,
         y: pointY,
+        w: width,
+        h: height,
         id: id,
         type: type,
+        visible: visible,
         main: new Image(),
         model: model,
         onCollision: collision,
@@ -53,8 +56,13 @@ export function spawn_object(name, pointX, pointY, width, height, id, type, mode
         massFrame: frames,
         frameName: "",
         draw(){
-            ctx.drawImage(object.main, object.x, object.y, object.main.width, object.main.height)
+            if (object.visible) {
+                ctx.drawImage(object.main, object.x, object.y, object.main.width, object.main.height)
+            }
         }
+    }
+    if (object.object == "dresser") {
+        spawn_container(3, object)
     }
     if (animation = true) {
         object.frameName = object.model.replace('./sprites/objects/','').replace(`_1.png`,'');
@@ -65,8 +73,27 @@ export function spawn_object(name, pointX, pointY, width, height, id, type, mode
     if (height!=0) {
         object.main.height = height
     }
-    object.main.src = object.model
+    if (object.visible) {
+        object.main.src = object.model
+    }
     objects.unshift(object)
+}
+
+function spawn_container(containerSize, object) {
+    for (let i = 1; i <= containerSize; i++) {
+        console.log(i, object.id)
+        var container = {
+            img: new Image(),
+            id: object.id,
+            slot: i,
+            item: getRandomInt(0,5),
+            draw(){
+                container.img.src = "./sprites/objects/dresser_container_1.png"
+                ctx.drawImage(container.img, object.x-10, object.y-10, container.img.width, container.img.height)
+            }
+        }
+        objects.unshift(container)
+    }
 }
 
 //Удаление обьекта(для разработчика)

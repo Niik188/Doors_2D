@@ -1,4 +1,4 @@
-import { canv, ctx, effect_canv, effect_ctx } from "./utils.js";
+import { canv, ctx, effect_canv, effect_ctx, font } from "./utils.js";
 import { cursor } from "./cursor.js";
 import { camera } from "./camera.js";
 import { roomsMass, rooms, before_rooms } from "./map.js";
@@ -8,6 +8,30 @@ import { animatePlayer } from "./animation.js";
 
 var doorTable = new Image()
 doorTable.src = "./sprites/door.png"
+
+var slot_1 = {
+    x: 550,
+    y: 0,
+    img: new Image()
+}
+
+var slot_2 = {
+    x: 750,
+    y: 0,
+    img: new Image()
+}
+
+var slot_3 = {
+    x: 950,
+    y: 0,
+    img: new Image()
+}
+
+var slot_4 = {
+    x: 1150,
+    y: 0,
+    img: new Image()
+}
 
 var right_mobile = {
     x: 10,
@@ -25,6 +49,10 @@ var left_mobile = {
     img: new Image()
 }
 
+slot_1.img.src = "./sprites/slot.png"
+slot_2.img.src = "./sprites/slot.png"
+slot_3.img.src = "./sprites/slot.png"
+slot_4.img.src = "./sprites/slot.png"
 right_mobile.img.src = "./sprites/mobile/right_button.png"
 left_mobile.img.src = "./sprites/mobile/right_button.png"
 //Счётчик кадров в сек.
@@ -94,12 +122,16 @@ export function renderHUD() {
     }
     //Показ fps
     });
+    ctx.drawImage(slot_1.img, slot_1.x+camera.x, slot_1.y+canv.height/1.5+camera.y);
+    ctx.drawImage(slot_2.img, slot_2.x+camera.x, slot_2.y+canv.height/1.5+camera.y);
+    ctx.drawImage(slot_3.img, slot_3.x+camera.x, slot_3.y+canv.height/1.5+camera.y);
+    ctx.drawImage(slot_4.img, slot_4.x+camera.x, slot_4.y+canv.height/1.5+camera.y);
     ctx.drawImage(cursor.img, cursor.x-cursor.img.width/2, cursor.y-cursor.img.height/2);
     ctx.fillStyle = "red";
-    ctx.font = "normal 16pt Arial";
+    ctx.font = "16pt Main_Font";
     ctx.fillText(fps + " fps", camera.x+10, camera.y+26);
     ctx.fillStyle = "black";
-    ctx.font = "normal 20pt Arial";
+    ctx.font = "20pt Main_Font";
     ctx.drawImage(doorTable, roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2-100, 365)
     if (roomsMass[roomsMass.length-2] != undefined) {
     ctx.drawImage(doorTable, roomsMass[roomsMass.length-2].x+roomsMass[roomsMass.length-2].img.width*2-100, 365)
@@ -109,13 +141,22 @@ export function renderHUD() {
         if (roomsMass[roomsMass.length-2] != undefined) {
             ctx.fillText("000"+before_rooms, roomsMass[roomsMass.length-2].x+roomsMass[roomsMass.length-2].img.width*2-80, 395);
         }
-    }else if (rooms>=10){
+    }else if (rooms>=10&&rooms<100){
         ctx.fillText("00"+rooms, roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2-80, 395);
         if (roomsMass[roomsMass.length-2] != undefined) {
             ctx.fillText("00"+before_rooms, roomsMass[roomsMass.length-2].x+roomsMass[roomsMass.length-2].img.width*2-80, 395);
         }
+    }else if (rooms>=100&&rooms<1000){
+        ctx.fillText("0"+rooms, roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2-80, 395);
+        if (roomsMass[roomsMass.length-2] != undefined) {
+            ctx.fillText("0"+before_rooms, roomsMass[roomsMass.length-2].x+roomsMass[roomsMass.length-2].img.width*2-80, 395);
+        }
+    }else if (rooms>=1000){
+        ctx.fillText(rooms, roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2-80, 395);
+        if (roomsMass[roomsMass.length-2] != undefined) {
+            ctx.fillText(before_rooms, roomsMass[roomsMass.length-2].x+roomsMass[roomsMass.length-2].img.width*2-80, 395);
+        }
     }
-    
     
     // ctx.save();
     // ctx.scale(-1, 1);
