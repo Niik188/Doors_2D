@@ -24,36 +24,35 @@ export function collision() {
         player.speed_right = 5
         player.speed_left = 5
     }
-    
-    
-    for (let i = 0; i < objects.length; i++) {
-        if (objects[i].onCollision == true) {
-            if(player.x + player.w > objects[i].x+20 &&
-                 player.x < objects[i].x-20 + objects[i].main.width&&
-                 player.y + player.h > objects[i].y&&
-                 player.y + player.h < objects[i].y+objects[i].main.height/2.5){
-                player.y = objects[i].y+1-player.h
+     
+    objects.forEach(object => {
+        if (object.onCollision == true) {
+            if(player.x + player.w > object.x+20 &&
+                 player.x < object.x-20 + object.img.width&&
+                 player.y + player.h > object.y&&
+                 player.y + player.h < object.y+object.img.height/2.5){
+                player.y = object.y+1-player.h
                 player.ground = true
             }
-            if(player.x + player.w > objects[i].x+20 &&
-                 player.x < objects[i].x-20 + objects[i].main.width&&
-                 player.y < objects[i].y+objects[i].main.height&&
-                 player.y + player.h > objects[i].y+objects[i].main.height/2.5){
-                player.y = objects[i].y + objects[i].main.height
+            if(player.x + player.w > object.x+20 &&
+                 player.x < object.x-20 + object.img.width&&
+                 player.y < object.y+object.img.height&&
+                 player.y + player.h > object.y+object.img.height/2.5){
+                player.y = object.y + object.img.height
                 player.ground = true
             }
-            if (player.x + player.w > objects[i].x&&
-                player.x + player.w < objects[i].x+objects[i].main.width/2&&
-                player.y + player.h > objects[i].y+10&&
-                player.y < objects[i].y+objects[i].main.height-10) {
-                player.x = objects[i].x+1-player.w
+            if (player.x + player.w > object.x&&
+                player.x + player.w < object.x+object.img.width/2&&
+                player.y + player.h > object.y+10&&
+                player.y < object.y+object.img.height-10) {
+                player.x = object.x+1-player.w
                 player.speed_right = 0
                 player.moving = false
-            }else if (player.x < objects[i].x + objects[i].main.width&&
-                player.x + player.w > objects[i].x+objects[i].main.width/2&&
-                player.y + player.h > objects[i].y+10&&
-                player.y < objects[i].y+objects[i].main.height-10) {
-                player.x = (objects[i].x + objects[i].main.width)-1
+            }else if (player.x < object.x + object.img.width&&
+                player.x + player.w > object.x+object.img.width/2&&
+                player.y + player.h > object.y+10&&
+                player.y < object.y+object.img.height-10) {
+                player.x = (object.x + object.img.width)-1
                 player.speed_left = 0
                 player.moving = false
             }else{
@@ -61,8 +60,7 @@ export function collision() {
                 player.speed_left = 5
             }
         }
-    }
-    
+    });
     
 }
 
@@ -82,17 +80,14 @@ export function gravity() {
     roomsMass.forEach(stage => {
     for (let i = 0; i < objects.length; i++) {
         if (objects[i].type == "physics") {
-            if (objects[i].y + objects[i].main.height < stage.y+150||objects[i].x < stage.x) {
+            if (objects[i].y + objects[i].img.height < stage.y+150||objects[i].x < stage.x) {
                 objects[i].ground = false
                 objects[i].power_physic+=0.5
                 objects[i].y+=objects[i].power_physic
-            }else if(objects[i].y + objects[i].main.height > stage.y+150){
-                objects[i].y = stage.y+150-objects[i].main.height
+            }else if(objects[i].y + objects[i].img.height > stage.y+150){
+                objects[i].y = stage.y+150-objects[i].img.height
                 objects[i].ground = true
                 objects[i].power_physic=0
-            }
-            if (objects[i].y > canv.width) {
-                objects.splice(i)
             }
         }
     } 

@@ -1,4 +1,4 @@
-import { canv, ctx, effect_canv, effect_ctx, font } from "./utils.js";
+import { canv, ctx, effect_ctx } from "./utils.js";
 import { cursor } from "./cursor.js";
 import { camera } from "./camera.js";
 import { roomsMass, rooms, before_rooms } from "./map.js";
@@ -124,7 +124,7 @@ export function renderHUD() {
         effect_ctx.fillText(fps + " fps", camera.x+10, camera.y+26);
         objects.forEach(object => {
         if(object.object == "light"){
-            effect_ctx.drawImage(object.main, object.x, object.y, object.main.width, object.main.height)
+            effect_ctx.drawImage(object.img, object.x, object.y, object.img.width, object.img.height)
         }
         });
     }
@@ -137,10 +137,10 @@ export function renderHUD() {
     ctx.drawImage(check.img, cursor.x ,cursor.y-check.img.height)
     ctx.drawImage(cursor.img, cursor.x-cursor.img.width/2, cursor.y-cursor.img.height/2);
     ctx.fillStyle = "red";
-    ctx.font = "16pt Main_Font";
+    ctx.font = "16pt img_Font";
     ctx.fillText(fps + " fps", camera.x+10, camera.y+26);
     ctx.fillStyle = "black";
-    ctx.font = "20pt Main_Font";
+    ctx.font = "20pt img_Font";
     ctx.drawImage(doorTable, roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2-100, 365)
     if (roomsMass[roomsMass.length-2] != undefined) {
     ctx.drawImage(doorTable, roomsMass[roomsMass.length-2].x+roomsMass[roomsMass.length-2].img.width*2-100, 365)

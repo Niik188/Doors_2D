@@ -13,7 +13,7 @@ class Object{
         this.y = pointY,
         this.id = id,
         this.type = type,
-        this.main = new Image(),
+        this.img = new Image(),
         this.model = model,
         this.onCollision = collision,
         this.power_physic = 0,
@@ -25,10 +25,10 @@ class Object{
             this.frameName = this.model.replace('./sprites/objects/','').replace(`_1.png`,'');
         }
         if (width!=0&&height!=0) {
-            this.main.width = width
-            this.main.height = height
+            this.img.width = width
+            this.img.height = height
         }
-        this.main.src = this.model
+        this.img.src = this.model
     }
 }
 
@@ -47,7 +47,7 @@ export function spawn_object(visible, name, pointX, pointY, width, height, id, t
         id: id,
         type: type,
         visible: visible,
-        main: new Image(),
+        img: new Image(),
         model: model,
         onCollision: collision,
         power_physic: 0,
@@ -57,24 +57,24 @@ export function spawn_object(visible, name, pointX, pointY, width, height, id, t
         frameName: "",
         draw(){
             if (object.visible) {
-                ctx.drawImage(object.main, object.x, object.y, object.main.width, object.main.height)
+                ctx.drawImage(object.img, object.x, object.y, object.img.width, object.img.height)
             }
         }
     }
     if (object.object == "dresser") {
-        spawn_container(3, object)
+        spawn_container(getRandomInt(1,4), object)
     }
     if (animation = true) {
         object.frameName = object.model.replace('./sprites/objects/','').replace(`_1.png`,'');
     }
     if (width!=0) {
-        object.main.width = width
+        object.img.width = width
     }
     if (height!=0) {
-        object.main.height = height
+        object.img.height = height
     }
     if (object.visible) {
-        object.main.src = object.model
+        object.img.src = object.model
     }
     objects.unshift(object)
 }
@@ -83,12 +83,24 @@ function spawn_container(containerSize, object) {
     for (let i = 1; i <= containerSize; i++) {
         console.log(i, object.id)
         var container = {
+            object: `slot_${i}`,
             img: new Image(),
             x: object.x+20,
             y: 0,
+            w: 0,
+            h: 0,
+            type: "static",
             id: object.id,
-            slot: i,
             item: getRandomInt(0,5),
+            visible: true,
+            img: new Image(),
+            model: "",
+            onCollision: false,
+            power_physic: 0,
+            ground: false,
+            onAnimate: false,
+            massFrame: 0,
+            frameName: "",
             draw(){
                 container.y = object.y-40+(i*50)
                 container.img.src = "./sprites/objects/dresser_container_1.png"
@@ -96,6 +108,7 @@ function spawn_container(containerSize, object) {
             }
         }
         objects.unshift(container)
+        console.log(objects)
     }
 }
 

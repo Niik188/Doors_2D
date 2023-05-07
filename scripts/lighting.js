@@ -32,7 +32,7 @@ export function lighting() {
         objects.forEach(object => {
             if(object.object == "light"){
                 effect_ctx.beginPath();
-                effect_ctx.arc((object.x+object.main.width/2)-camera.x, object.y, 200, 0, Math.PI*2, false);
+                effect_ctx.arc((object.x+object.img.width/2)-camera.x, object.y, 200, 0, Math.PI*2, false);
                 effect_ctx.fill();
                 effect_ctx.closePath();
             }

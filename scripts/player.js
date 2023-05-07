@@ -85,9 +85,9 @@ export function sit() {
 //Проверка потолка
 export function checkCeilling(object) {
     if(object.onCollision){
-    if (player.x + player.w > object.x+20 && player.x < object.x-20 + object.main.width&&player.y-21 < object.y+object.main.height&&player.y-25 + player.h > object.y+object.main.height/1.5) {
+    if (player.x + player.w > object.x+20 && player.x < object.x-20 + object.img.width&&player.y-21 < object.y+object.img.height&&player.y-25 + player.h > object.y+object.img.height/1.5) {
         sit()
-    }else if (player.x + player.w < object.x&&player.y-25 < object.y+object.main.height || player.x > object.x + object.main.width&&player.y-25 < object.y+object.main.height){
+    }else if (player.x + player.w < object.x&&player.y-25 < object.y+object.img.height || player.x > object.x + object.img.width&&player.y-25 < object.y+object.img.height){
         player.h = 188
         player.sit = false
     }
@@ -96,39 +96,39 @@ export function checkCeilling(object) {
 
 //Клавиши
 addEventListener('keydown', (e) =>{
-    for (let i = 0; i < objects.length; i++) {
-    if (e.key == 'e'||e.key == 'E'||e.key == 'у'||e.key == 'У') {
-        if (collis(player.x, player.y, player.w, player.h, objects[i].x, objects[i].y-10, objects[i].main.width, objects[i].main.height+10)) {
-            if (objects[i].object == "test") {
-                animateObject(objects[i])
+    objects.forEach(object => {
+        if (e.key == 'e'||e.key == 'E'||e.key == 'у'||e.key == 'У') {
+        if (collis(player.x, player.y, player.w, player.h, object.x, object.y-10, object.img.width, object.img.height+10)) {
+            if (object.object == "test") {
+                animateObject(object)
             }
         }
-        if (collis(player.x, player.y, player.w, player.h, objects[i].x, objects[i].y, objects[i].main.width, objects[i].main.height)) {
-            if (objects[i].object == "hide"&&!player.hide) {
-                setTimeout(() => {
-                    animateObject(objects[i])
-                    player.x = objects[i].x + objects[i].main.width/2 - player.w/2
-                    player.y = objects[i].y + objects[i].main.height/2 - player.h/2
-                    spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 800)
-                    player.active = false
-                    player.hide = true
-                }, 100);
+        if (collis(player.x, player.y, player.w, player.h, object.x, object.y, object.img.width, object.img.height)) {
+            if (object.object == "hide"&&!player.hide) {
+                    setTimeout(() => {
+                        animateObject(object)
+                        player.x = object.x + object.img.width/2 - player.w/2
+                        player.y = object.y + object.img.height/2 - player.h/2
+                        spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 800)
+                        player.active = false
+                        player.hide = true
+                    }, 100);
+                }
             }
         }
-    }
-    if (e.key == 's'||e.key == 'S'||e.key == 'ы'||e.key == 'Ы') {
-        if (collis(player.x, player.y, player.w, player.h, objects[i].x, objects[i].y-10, objects[i].main.width, objects[i].main.height+10)) {
-            if (objects[i].object == "hide"&& player.hide) {
-                setTimeout(() => {
-                    animateObject(objects[i])
-                    spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 800)
-                    player.hide = false
-                    player.active = true
-                }, 100);
+        if (e.key == 's'||e.key == 'S'||e.key == 'ы'||e.key == 'Ы') {
+            if (collis(player.x, player.y, player.w, player.h, object.x, object.y-10, object.img.width, object.img.height+10)) {
+                if (object.object == "hide"&& player.hide) {
+                    setTimeout(() => {
+                        animateObject(object)
+                        spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 800)
+                        player.hide = false
+                        player.active = true
+                    }, 100);
+                }
             }
         }
-    }
-    }
+    });
 })
 
 var keyState = {};    
@@ -145,7 +145,10 @@ function gameLoop() {
         player.x -= player.speed_left*player.speed;
         player.flip = true
         player.moving = true
-        animatePlayer(player)
+        if (player.moving) {
+            animatePlayer(player)
+        }
+        // console.log(player.speed_left)
         if (!player.sit) {
             player.speed = 1.5
         }
@@ -159,10 +162,13 @@ function gameLoop() {
         player.x += player.speed_right*player.speed;
         player.flip = false
         player.moving = true
-        animatePlayer(player)
+        if (player.moving) {
+            animatePlayer(player)
+        }
         if (!player.sit) {
             player.speed = 1.5
         }
+        // console.log(player.speed_right)
     }
 
     if (keyState["s"] || keyState["S"] || keyState["ы"] || keyState["Ы"]){

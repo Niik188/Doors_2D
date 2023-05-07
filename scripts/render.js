@@ -4,7 +4,7 @@ import { gravity, collision } from "./physics.js";
 import { objects } from "./objects.js";
 import { background, checkStage, roomsMass } from "./map.js";
 import { sounds, distanceSound } from "./sounds.js";
-import { canv, ctx, effect_canv, getRandomInt } from "./utils.js";
+import { canv, ctx, effect_canv, getRandomInt, mapBounds } from "./utils.js";
 import { lighting } from "./lighting.js";
 import { camera, cameraMoving } from "./camera.js"
 import { animateBackground } from "./animation.js";
@@ -30,7 +30,7 @@ function draw() {
   for (let i = 0; i < sounds.length; i++) {
     distanceSound(sounds[i])
     //Удаление звука, если звук прекратился
-    if (sounds[i].main.paused) {
+    if (sounds[i].audio.paused) {
       sounds.splice(i, 1)
     }
   }
@@ -42,6 +42,9 @@ function draw() {
   checkStage()
   objects.forEach(object => {
     object.draw()
+    if (object.x+object.img.width < mapBounds.minX) {
+      objects.splice(object)
+    }
   });
   player.draw()
   renderHUD()

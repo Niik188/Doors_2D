@@ -5,15 +5,15 @@ export var sounds = []
 //Создание звука
 export function spawn_sound(pointX, pointY, src, distance){
     var sound = {
-        main: new Audio(),
+        audio: new Audio(),
         src: src,
         x: pointX,
         y: pointY,
         volume: 1,
         distance: distance
     }
-    sound.main.src = sound.src
-    sound.main.play()
+    sound.audio.src = sound.src
+    sound.audio.play()
     sounds.push(sound)
 }
 
@@ -44,5 +44,5 @@ export function distanceSound(sound) {
         if (distanceX+distanceY==0) {
             sound.volume = 1
         }
-        sound.main.volume = sound.volume
+        sound.audio.volume = sound.volume
     }

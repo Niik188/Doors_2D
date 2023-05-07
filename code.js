@@ -63,7 +63,7 @@ function draw() {
     ctx.fillRect(0, 0, canv.width, canv.height);
     ctx.drawImage(background.img, 0, background.y-background.img.width+150, background.img.width*2, background.img.height*2);
     for (let i = 0; i < objects.length; i++) {
-        ctx.drawImage(objects[i].main, objects[i].x, objects[i].y, objects[i].main.width, objects[i].main.height)
+        ctx.drawImage(objects[i].img, objects[i].x, objects[i].y, objects[i].img.width, objects[i].img.height)
     }
     // ctx.save();
     // ctx.scale(-1, 1);
@@ -106,19 +106,19 @@ function collision() {
     }
     for (let i = 0; i < objects.length; i++) {
         if (objects[i].onCollision == true) {
-            if(player.x + player.w > objects[i].x+5 && player.x < objects[i].x-5 + objects[i].main.width&&player.y + player.h > objects[i].y&&player.y + player.h < objects[i].y+objects[i].main.height/2.5){
+            if(player.x + player.w > objects[i].x+5 && player.x < objects[i].x-5 + objects[i].img.width&&player.y + player.h > objects[i].y&&player.y + player.h < objects[i].y+objects[i].img.height/2.5){
                 player.y = objects[i].y+1-player.h
                 player.ground = true
             }
-            if(player.x + player.w > objects[i].x+5 && player.x < objects[i].x-5 + objects[i].main.width&&player.y < objects[i].y+objects[i].main.height&&player.y + player.h > objects[i].y+objects[i].main.height/2.5){
-                player.y = objects[i].y + objects[i].main.height
+            if(player.x + player.w > objects[i].x+5 && player.x < objects[i].x-5 + objects[i].img.width&&player.y < objects[i].y+objects[i].img.height&&player.y + player.h > objects[i].y+objects[i].img.height/2.5){
+                player.y = objects[i].y + objects[i].img.height
                 player.ground = true
             }
-            if (player.x + player.w > objects[i].x&&player.x + player.w < objects[i].x+objects[i].main.width/2&&player.y + player.h > objects[i].y+10&&player.y < objects[i].y+objects[i].main.height-10) {
+            if (player.x + player.w > objects[i].x&&player.x + player.w < objects[i].x+objects[i].img.width/2&&player.y + player.h > objects[i].y+10&&player.y < objects[i].y+objects[i].img.height-10) {
                 player.x = objects[i].x+1-player.w
                 player.speed_right = 0
-            }else if (player.x < objects[i].x + objects[i].main.width&&player.x + player.w > objects[i].x+objects[i].main.width/2&&player.y + player.h > objects[i].y+10&&player.y < objects[i].y+objects[i].main.height-10) {
-                player.x = (objects[i].x + objects[i].main.width)-1
+            }else if (player.x < objects[i].x + objects[i].img.width&&player.x + player.w > objects[i].x+objects[i].img.width/2&&player.y + player.h > objects[i].y+10&&player.y < objects[i].y+objects[i].img.height-10) {
+                player.x = (objects[i].x + objects[i].img.width)-1
                 player.speed_left = 0
             }else{
                 player.speed_right = 5
@@ -140,12 +140,12 @@ function gravity() {
     }
     for (let i = 0; i < objects.length; i++) {
         if (objects[i].type == "physics") {
-            if (objects[i].y + objects[i].main.height < background.y+150||objects[i].x > background.img.width*2) {
+            if (objects[i].y + objects[i].img.height < background.y+150||objects[i].x > background.img.width*2) {
                 objects[i].ground = false
                 objects[i].power_physic+=0.5
                 objects[i].y+=objects[i].power_physic
-            }else if(objects[i].y + objects[i].main.height > background.y+150){
-                objects[i].y = background.y+150-objects[i].main.height
+            }else if(objects[i].y + objects[i].img.height > background.y+150){
+                objects[i].y = background.y+150-objects[i].img.height
                 objects[i].ground = true
                 objects[i].power_physic=0
             }
@@ -216,13 +216,13 @@ function spawn_object(name, pointX, pointY, id, type, model, collision) {
         y: pointY,
         id: id,
         type: type,
-        main: new Image(),
+        img: new Image(),
         model: model,
         onCollision: collision,
         power_physic: 0,
         ground: false
     }
-    object.main.src = object.model
+    object.img.src = object.model
     objects.push(object)
     console.log(objects)
 }
