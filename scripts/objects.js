@@ -84,12 +84,15 @@ function spawn_container(containerSize, object) {
         console.log(i, object.id)
         var container = {
             img: new Image(),
+            x: object.x+20,
+            y: 0,
             id: object.id,
             slot: i,
             item: getRandomInt(0,5),
             draw(){
+                container.y = object.y-40+(i*50)
                 container.img.src = "./sprites/objects/dresser_container_1.png"
-                ctx.drawImage(container.img, object.x-10, object.y-10, container.img.width, container.img.height)
+                ctx.drawImage(container.img, container.x, container.y, container.img.width, container.img.height)
             }
         }
         objects.unshift(container)

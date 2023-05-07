@@ -9,6 +9,13 @@ import { animatePlayer } from "./animation.js";
 var doorTable = new Image()
 doorTable.src = "./sprites/door.png"
 
+var check = {
+    img: new Image(),
+    background: 0,
+    item: 0,
+    visible: true
+}
+
 var slot_1 = {
     x: 550,
     y: 0,
@@ -49,6 +56,7 @@ var left_mobile = {
     img: new Image()
 }
 
+check.img.src = "./sprites/check_0.png"
 slot_1.img.src = "./sprites/slot.png"
 slot_2.img.src = "./sprites/slot.png"
 slot_3.img.src = "./sprites/slot.png"
@@ -126,6 +134,7 @@ export function renderHUD() {
     ctx.drawImage(slot_2.img, slot_2.x+camera.x, slot_2.y+canv.height/1.5+camera.y);
     ctx.drawImage(slot_3.img, slot_3.x+camera.x, slot_3.y+canv.height/1.5+camera.y);
     ctx.drawImage(slot_4.img, slot_4.x+camera.x, slot_4.y+canv.height/1.5+camera.y);
+    ctx.drawImage(check.img, cursor.x ,cursor.y-check.img.height)
     ctx.drawImage(cursor.img, cursor.x-cursor.img.width/2, cursor.y-cursor.img.height/2);
     ctx.fillStyle = "red";
     ctx.font = "16pt Main_Font";
