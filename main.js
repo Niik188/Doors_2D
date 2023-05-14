@@ -1,5 +1,5 @@
 //Путь к коду
-let locate = './scripts/location/game.js'
+let locate = './scripts/location/menu.js'
 window.addEventListener("load", ()=>{
 import(locate)
 })

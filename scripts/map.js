@@ -64,7 +64,6 @@ function generateMap(x, room) {
     type: "light",
     room: room
     }
-    stage.x = x
     
     if (rooms!=0+1) {
         var numberBG = getRandomInt(1,6)
