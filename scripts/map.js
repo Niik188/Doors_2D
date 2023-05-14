@@ -47,7 +47,7 @@ export function checkStage() {
                 rooms++
                 before_rooms++
                 spawn_sound(player.x, player.y, './sounds/open_door.mp3', 800, false)
-                generateMap(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+1)
+                generateMap(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2)
                 console.log(roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2+1)
             }
         }
