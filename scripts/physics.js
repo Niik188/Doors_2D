@@ -17,9 +17,8 @@ export function collision() {
     if (player.x + player.w > mapBounds.maxX) {
         player.x = mapBounds.maxX+1-player.w
         player.speed_right = 0
-    }else if (player.x < mapBounds.minX) {
-        player.x = mapBounds.minX-1
-        player.speed_left = 0
+    }else if (player.x+player.velocityX < mapBounds.minX) {
+        player.velocityX = 0
     }else{
         player.speed_right = 5
         player.speed_left = 5
@@ -64,20 +63,20 @@ export function collision() {
     
 }
 
-
-
 //Физика игрока
 export function gravity() {
-    if (!player.ground&&player.active) {
-        player.power_physic+=0.5
-        player.y+=player.power_physic
+    roomsMass.forEach(stage => {
+    if (player.y+player.h+player.velocityY < stage.y+160&&player.active) {
+        player.velocityY += 0.5
+        player.ground = false
+        player.y+=player.velocityY
         if (!player.sit) {
         setPicture(0, 645, 90, 223)
         }
     }else{
-        player.power_physic=0
+        player.velocityY=0
+        player.ground = true
     }
-    roomsMass.forEach(stage => {
     for (let i = 0; i < objects.length; i++) {
         if (objects[i].type == "physics") {
             if (objects[i].y + objects[i].img.height < stage.y+150||objects[i].x < stage.x) {
@@ -89,13 +88,16 @@ export function gravity() {
                 objects[i].ground = true
                 objects[i].power_physic=0
             }
+            if (objects[i].y > canv.width) {
+                objects.splice(i)
+            }
         }
     } 
     });
 }
 
 //Функция определяет, что первый обьект внутри второго
-export function collis(x1, y1, w1, h1, x2, y2, w2, h2) {
-    return x2 < x1+w1 &&  x1 < x2+ w2
-            && y2 < y1+h1 &&  y1 < y2+ h2
+export function collis(object1, object2) {
+    return object2.x < object1.x+object1.w &&  object1.x < object2.x+object2.w
+            && object2.y < object1.y+object1.h &&  object1.y < object2.y+object2.h
 }

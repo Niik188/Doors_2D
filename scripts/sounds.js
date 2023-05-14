@@ -1,11 +1,14 @@
 import { player } from "./player.js"
-export var music = new Audio()
+export var background_sound = new Audio()
 export var sounds = []
+background_sound.volume = 0.3
+background_sound.loop = true
 
 //Создание звука
-export function spawn_sound(pointX, pointY, src, distance){
+export function spawn_sound(pointX, pointY, src, distance, loop){
     var sound = {
         audio: new Audio(),
+        loop: loop,
         src: src,
         x: pointX,
         y: pointY,

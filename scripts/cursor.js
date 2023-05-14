@@ -1,9 +1,13 @@
+import { spawn_sound } from "./sounds.js";
+export var click = false
 
 //параметр курсора
 export var cursor = {
     img: new Image(),
     x: 0,
-    y: 0
+    y: 0,
+    w: 10,
+    h: 10
 }
 
 //назначение картинки
@@ -19,6 +23,17 @@ export var page = {
 window.addEventListener('mousemove',(e)=>{
     page.x = e.pageX
     page.y = e.pageY
+})
+
+//При нажатии мышки
+window.addEventListener('mousedown',(e)=>{
+    click = true
+    console.log(click)
+})
+
+//При отжатии мышки
+window.addEventListener('mouseup',(e)=>{
+    click = false
 })
 
 // Проверка звука(для разработчиков)

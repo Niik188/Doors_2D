@@ -6,8 +6,10 @@ export var effect_canv = document.getElementById('effects')
 export const effect_ctx = effect_canv.getContext("2d");
 export var font = new FontFace('img_Font', 'url(./font/typewriter.ttf)');
 
+//Добавление шрифта в документ
 document.fonts.add(font);
 
+//Настройка размера холста
 canv.width = effect_canv.width = window.innerWidth
 canv.style.width = effect_canv.style.width = window.innerWidth
 canv.height = effect_canv.height = window.innerHeight

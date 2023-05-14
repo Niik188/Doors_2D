@@ -24,14 +24,16 @@ export function animateObject(object) {
 //Анимация игрока
 export function animatePlayer(player) {
     if (!player.sit&&player.moving) {
-        var mass = [0,90]
-        setPicture(mass[Math.round(Date.now()/SPEED_FRAME) % mass.length], 224, 90, 223)
+        var mass = [0, 89, 178]
+        setPicture(mass[Math.round(Date.now()/SPEED_FRAME) % mass.length], 224, 89, 223)
     }
     if(player.sit&&player.moving){
         var mass = [0,92,184]
-        setPicture(mass[Math.round(Date.now()/SPEED_FRAME) % mass.length], 448,92,194)
+        setPicture(mass[Math.round(Date.now()/SPEED_FRAME) % mass.length], 448,90,194)
     }}
 
+
+//Анимация заднего плана
 export function animateBackground(background) {
     background.source_y = -Math.round(Date.now()/SPEED_FRAME*100) % 500
 }

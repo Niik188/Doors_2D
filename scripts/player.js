@@ -7,9 +7,11 @@ import { ctx} from './utils.js';
 //параметр игрока
 export var player = {
     img: new Image(),
+    sfx: new Audio(),
     active: true,
     hide: false,
-    power_physic: 0,
+    velocityY: 0,
+    velocityX: 0,
     jump: false,
     sit: false,
     ground: false,
@@ -21,13 +23,14 @@ export var player = {
     flip: false,
     x: 0,
     y: 0,
-    w: 90,
+    w: 110,
     h: 223,
     pictureX: 0,
     pictureY: 0,
     pictureW: 90,
     pictureH: 223,
     draw(){
+    player.x += player.velocityX;
     player.img.src = './sprites/player_new.png';
         if (!player.hide) {
         if (!player.sit&&player.ground&&!player.moving) {
@@ -64,7 +67,7 @@ function player_jump() {
     if (player.active) { 
     if (player.ground&&player.jump) {
         player.y -= 6;
-        player.power_physic = -20
+        player.velocityY = -20
         setTimeout(() => {
             return;
         }, 200);
@@ -77,7 +80,7 @@ export function sit() {
     setTimeout(() => {
         player.sit = true
         // setPicture(0,448,92,195)
-        player.h = 160
+        player.h = 195
     }, 150);
     player.speed = 0.8
 }
@@ -98,18 +101,18 @@ export function checkCeilling(object) {
 addEventListener('keydown', (e) =>{
     objects.forEach(object => {
         if (e.key == 'e'||e.key == 'E'||e.key == 'у'||e.key == 'У') {
-        if (collis(player.x, player.y, player.w, player.h, object.x, object.y-10, object.img.width, object.img.height+10)) {
+        if (collis(player,object)) {
             if (object.object == "test") {
                 animateObject(object)
             }
         }
-        if (collis(player.x, player.y, player.w, player.h, object.x, object.y, object.img.width, object.img.height)) {
+        if (collis(player,object)) {
             if (object.object == "hide"&&!player.hide) {
                     setTimeout(() => {
                         animateObject(object)
                         player.x = object.x + object.img.width/2 - player.w/2
                         player.y = object.y + object.img.height/2 - player.h/2
-                        spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 800)
+                        spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 800, false)
                         player.active = false
                         player.hide = true
                     }, 100);
@@ -117,19 +120,22 @@ addEventListener('keydown', (e) =>{
             }
         }
         if (e.key == 's'||e.key == 'S'||e.key == 'ы'||e.key == 'Ы') {
-            if (collis(player.x, player.y, player.w, player.h, object.x, object.y-10, object.img.width, object.img.height+10)) {
+            if (collis(player,object)) {
                 if (object.object == "hide"&& player.hide) {
                     setTimeout(() => {
                         animateObject(object)
-                        spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 800)
+                        spawn_sound(player.x, player.y, './sounds/close_hide.mp3', 800, false)
                         player.hide = false
                         player.active = true
                     }, 100);
                 }
             }
         }
+        
     });
 })
+
+player.sfx.src = "./sounds/step.mp3"
 
 var keyState = {};    
 window.addEventListener('keydown',function(e){
@@ -137,20 +143,24 @@ window.addEventListener('keydown',function(e){
 },true);    
 window.addEventListener('keyup',function(e){
     keyState[e.key] = false;
+    player.velocityX=0;
 },true);
 
 function gameLoop() {
     if (player.active) {
     if (keyState["a"] || keyState["A"] || keyState["ф"] || keyState["Ф"]){ 
-        player.x -= player.speed_left*player.speed;
+        player.velocityX=-10;
         player.flip = true
         player.moving = true
+        if (player.velocityX > 0||player.velocityX < 0) {
+            player.sfx.play()
+        }
         if (player.moving) {
             animatePlayer(player)
         }
         // console.log(player.speed_left)
-        if (!player.sit) {
-            player.speed = 1.5
+        if (player.sit) {
+            player.velocityX = -5
         }
     }
 
@@ -159,34 +169,46 @@ function gameLoop() {
     }
 
     if (keyState["d"] || keyState["D"] || keyState["в"] || keyState["В"]){
-        player.x += player.speed_right*player.speed;
+        player.velocityX=10;
         player.flip = false
         player.moving = true
+        if (player.velocityX > 0||player.velocityX < 0) {
+            player.sfx.play()
+        }
         if (player.moving) {
             animatePlayer(player)
         }
-        if (!player.sit) {
-            player.speed = 1.5
+        if (player.sit) {
+            player.velocityX = 5
         }
         // console.log(player.speed_right)
     }
 
     if (keyState["s"] || keyState["S"] || keyState["ы"] || keyState["Ы"]){
         player.y += 27
+        player.sfx.volume = 0.2
         sit()
     }else{
         setTimeout(() => {
         objects.forEach(object => {
             checkCeilling(object)
         });
-        player.h = 188
+        player.h = 223
+        player.sfx.volume = 0.5
         player.sit = false
         }, 150);
     }
 
     if (!keyState["d"] && !keyState["D"] && !keyState["в"] && !keyState["В"]&& !keyState["a"] && !keyState["A"] && !keyState["ф"] && !keyState["Ф"]){
         player.moving = false
+        if(player.velocityX == 0){
+            player.sfx.currentTime = 0;
+            player.sfx.pause();
+        }
     }
+    }else{
+        player.sfx.currentTime = 0;
+        player.sfx.pause();
     }
     // redraw/reposition your object here
     // also redraw/animate any objects not controlled by the user

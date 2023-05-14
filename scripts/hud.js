@@ -2,44 +2,37 @@ import { canv, ctx, effect_ctx } from "./utils.js";
 import { cursor } from "./cursor.js";
 import { camera } from "./camera.js";
 import { roomsMass, rooms, before_rooms } from "./map.js";
-import { objects } from "./objects.js";
+import { coinsGive, objects } from "./objects.js";
 import { player } from "./player.js";
 import { animatePlayer } from "./animation.js";
+
+//Счетчик монет
+export var coinsCount = 0
 
 var doorTable = new Image()
 doorTable.src = "./sprites/door.png"
 
-var check = {
+//Интерфейс проверки тумбочки
+export var check = {
     img: new Image(),
     background: 0,
     item: 0,
-    visible: true
+    visible: false
 }
 
-var slot_1 = {
+//Интерфейс предмета
+export var item = {
+    img: new Image()
+}
+
+//Слот
+var slot = {
     x: 550,
     y: 0,
     img: new Image()
 }
 
-var slot_2 = {
-    x: 750,
-    y: 0,
-    img: new Image()
-}
-
-var slot_3 = {
-    x: 950,
-    y: 0,
-    img: new Image()
-}
-
-var slot_4 = {
-    x: 1150,
-    y: 0,
-    img: new Image()
-}
-
+//Для мобильных телефонов
 var right_mobile = {
     x: 10,
     y: canv.height/2,
@@ -56,17 +49,16 @@ var left_mobile = {
     img: new Image()
 }
 
-check.img.src = "./sprites/check_0.png"
-slot_1.img.src = "./sprites/slot.png"
-slot_2.img.src = "./sprites/slot.png"
-slot_3.img.src = "./sprites/slot.png"
-slot_4.img.src = "./sprites/slot.png"
+//Загрузка картинок в обьекты
+slot.img.src = "./sprites/slot.png"
 right_mobile.img.src = "./sprites/mobile/right_button.png"
 left_mobile.img.src = "./sprites/mobile/right_button.png"
+
 //Счётчик кадров в сек.
 var times = [];
 var fps;
 
+//Для мобильных телефонов
 var clickState;    
 window.addEventListener('touchstart',function(e){
     clickState = setInterval(() => {
@@ -104,6 +96,7 @@ window.addEventListener('touchend',function(){
     clearInterval(clickState)
 },true);
 
+//Отрисовка HUD
 export function renderHUD() {
     right_mobile.x = window.innerWidth-100
     right_mobile.y = left_mobile.y = window.innerHeight/2
@@ -115,36 +108,37 @@ export function renderHUD() {
     times.push(now);
     fps = times.length;
     roomsMass.forEach(stage => {
+        //В темной комнате
         if (stage.type == "dark") {
         effect_ctx.drawImage(cursor.img, cursor.x-cursor.img.width/2, cursor.y-cursor.img.height/2);
         //Показ fps
         fps = times.length;
         effect_ctx.fillStyle = "red";
-        effect_ctx.font = "normal 16pt Arial";
+        effect_ctx.font = "16pt img_Font";
         effect_ctx.fillText(fps + " fps", camera.x+10, camera.y+26);
+        effect_ctx.fillStyle = "yellow";
+        effect_ctx.font = "16pt img_Font";
+        effect_ctx.fillText(coinsCount + " coins", camera.x+10, camera.y+36);
         objects.forEach(object => {
         if(object.object == "light"){
             effect_ctx.drawImage(object.img, object.x, object.y, object.img.width, object.img.height)
         }
         });
     }
-    //Показ fps
+    
     });
-    ctx.drawImage(slot_1.img, slot_1.x+camera.x, slot_1.y+canv.height/1.5+camera.y);
-    ctx.drawImage(slot_2.img, slot_2.x+camera.x, slot_2.y+canv.height/1.5+camera.y);
-    ctx.drawImage(slot_3.img, slot_3.x+camera.x, slot_3.y+canv.height/1.5+camera.y);
-    ctx.drawImage(slot_4.img, slot_4.x+camera.x, slot_4.y+canv.height/1.5+camera.y);
-    ctx.drawImage(check.img, cursor.x ,cursor.y-check.img.height)
-    ctx.drawImage(cursor.img, cursor.x-cursor.img.width/2, cursor.y-cursor.img.height/2);
-    ctx.fillStyle = "red";
-    ctx.font = "16pt img_Font";
-    ctx.fillText(fps + " fps", camera.x+10, camera.y+26);
+    // ctx.drawImage(slot.img, slot.x+camera.x, slot.y+canv.height/1.5+camera.y);
+    if (check.visible) {
+        ctx.drawImage(check.img, cursor.x ,cursor.y-check.img.height)
+        ctx.drawImage(item.img, cursor.x, cursor.y-check.img.height)
+    }
     ctx.fillStyle = "black";
     ctx.font = "20pt img_Font";
     ctx.drawImage(doorTable, roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2-100, 365)
     if (roomsMass[roomsMass.length-2] != undefined) {
     ctx.drawImage(doorTable, roomsMass[roomsMass.length-2].x+roomsMass[roomsMass.length-2].img.width*2-100, 365)
     }
+    //Добавление нулей к номеру комнат
     if (rooms<10) {
         ctx.fillText("000"+rooms, roomsMass[roomsMass.length-1].x+roomsMass[roomsMass.length-1].img.width*2-80, 395);
         if (roomsMass[roomsMass.length-2] != undefined) {
@@ -166,7 +160,14 @@ export function renderHUD() {
             ctx.fillText(before_rooms, roomsMass[roomsMass.length-2].x+roomsMass[roomsMass.length-2].img.width*2-80, 395);
         }
     }
-    
+    ctx.drawImage(cursor.img, cursor.x-cursor.img.width/2, cursor.y-cursor.img.height/2);
+    //Показ fps
+    ctx.fillStyle = "red";
+    ctx.font = "16pt img_Font";
+    ctx.fillText(fps + " fps", camera.x+10, camera.y+26);
+    ctx.fillStyle = "yellow";
+    coinsCount = coinsGive
+    ctx.fillText(coinsCount + " coins", camera.x+canv.width-100, camera.y+26);
     // ctx.save();
     // ctx.scale(-1, 1);
     // ctx.drawImage(left_mobile.img, -left_mobile.x-camera.x, left_mobile.y+camera.y, -left_mobile.w, left_mobile.h);
