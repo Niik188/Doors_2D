@@ -28,7 +28,7 @@ window.addEventListener('mousemove',(e)=>{
 //При нажатии мышки
 window.addEventListener('mousedown',(e)=>{
     click = true
-    console.log(click)
+    console.log(page.x,page.y)
 })
 
 //При отжатии мышки

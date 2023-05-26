@@ -39,6 +39,7 @@ document.title = "Doors 2D|MENU"
 document.body.style.cursor = "default"
 console.log("ctx")
 var logo = new Image();
+var background = new Image();
 
 var fullscreen = new Button({
     r: 256,
@@ -63,8 +64,10 @@ var page = {
     y: 0
 }
 logo.src = './sprites/logo.png'
+background.src = './sprites/background_menu.png'
 function draw() {
     requestAnimationFrame(draw)
+    ctx.drawImage(background, 500, 10, canv.width-500, canv.height)
     ctx.drawImage(logo, 10, 10)
     btn_play.update()
     btn_option.update()

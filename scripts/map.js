@@ -1,5 +1,5 @@
 import { spawn_object, } from "./objects.js"
-import { background_sound, spawn_sound } from "./sounds.js"
+import { spawn_sound } from "./sounds.js"
 import { player } from "./player.js"
 import { getRandomInt, mapBounds } from "./utils.js"
 //Номер комнаты
@@ -17,7 +17,6 @@ export var background = {
 }
 
 background.img.src = "./sprites/rain.png"
-
 //При старте
 // var playerSound = background_sound.play()
 // if (playerSound !== undefined) {
@@ -69,10 +68,8 @@ function generateMap(x, room) {
         var numberBG = getRandomInt(1,6)
         stage.img.src = `./sprites/background_${numberBG}.png`
         if (numberBG == 5) {
-            background_sound.src = "./sounds/rain.mp3"
-            console.log("i love rain")
-        }else{
-            background_sound.src = "#"
+            spawn_sound(x+500, 390, './sounds/rain.mp3', 600, true)
+            spawn_sound(x+830, 376, './sounds/rain.mp3', 600, true)
         }
         if (getRandomInt(0,2)==1) {
             // spawn_object(false, "ground", x+70, 300, 0, 0, "none", "physics", "", true, true,[1,2,3,4])
@@ -88,10 +85,9 @@ function generateMap(x, room) {
             spawn_object(true, "dresser", x+800, 460, 0, 0, "none", "physics", "./sprites/objects/dresser_background.png", false, false, 0)
     }
     }else if (rooms == 0+1) {
-        background_sound.src = "./sounds/rain.mp3"
+        spawn_sound(x+430, 430, './sounds/rain.mp3', 600, true)
         stage.img.src = `./sprites/lobby.png`
         //spawn_object("door", x+stage.img.width*1.9+100, 0, 0, stage.img.height*2, "none", "static", "./sprites/objects/door.png", false, false;  
     }
-    background_sound.play()
     roomsMass.push(stage)
 }

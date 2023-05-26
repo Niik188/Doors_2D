@@ -30,7 +30,7 @@ function draw() {
   for (let i = 0; i < sounds.length; i++) {
     distanceSound(sounds[i])
     //Удаление звука, если звук прекратился
-    if (sounds[i].audio.paused&&sounds[i].type != true) {
+    if (sounds[i].audio.paused&&sounds[i].loop != true) {
       sounds.splice(i, 1)
     }
   }
